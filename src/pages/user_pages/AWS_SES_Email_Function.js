@@ -47,7 +47,7 @@ export async function emailUser(token, email, event_name, organization_name, des
     Source: "thecompassionconnectionoahu@gmail.com" // SENDER_ADDRESS
   };
 
-  let COGNITO_ID = "cognito-idp.us-west-2.amazonaws.com/us-west-2_Ra4PetKKB"; // 'COGNITO_ID' has the format 'cognito-idp.REGION.amazonaws.com/COGNITO_USER_POOL_ID'
+  let COGNITO_ID = "cognito-idp.us-west-2.amazonaws.com/us-west-2_HoWBljRN9"; // 'COGNITO_ID' has the format 'cognito-idp.REGION.amazonaws.com/COGNITO_USER_POOL_ID'
 
   const REGION = "us-west-2";
   let loginData = {
@@ -57,7 +57,7 @@ export async function emailUser(token, email, event_name, organization_name, des
       region: REGION,
       credentials: fromCognitoIdentityPool({
       clientConfig: { region: REGION }, // Configure the underlying CognitoIdentityClient.
-      identityPoolId: 'us-west-2:ff64ae76-e619-4f95-8320-a954796e8df2',
+      identityPoolId: 'us-west-2:2402da71-0ac3-4182-97f0-b364bdc4991e',
       logins: 
         loginData
     })
