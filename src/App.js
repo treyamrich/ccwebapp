@@ -45,7 +45,6 @@ function App() {
         await Auth.signOut();
         setFormState({...formState, formType: 'signIn'});
         console.log("loggingoutb4");
-        window.location.reload();
         console.log("loggingoutaft");
     } catch (error) {
         console.log('error signing out: ', error);
