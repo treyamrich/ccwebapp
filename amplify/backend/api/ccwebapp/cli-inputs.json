@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "ccwebapp",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "C:\\Users\\Trey\\Documents\\Programming\\ccwebapp\\amplify\\backend\\api\\ccwebapp\\schema.graphql",
+    "defaultAuthType": {
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authccwebapp"
+    }
+  }
+}

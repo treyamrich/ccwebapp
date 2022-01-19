@@ -1,0 +1,17 @@
+type Event @model @auth(rules: [{ allow: private}]) {
+  id: ID!
+  type: String! @index(name: "eventByCreated", sortKeyFields:["createdAt"], queryField: "eventByCreated")
+  createdAt: String!
+
+  organization_name: String!
+  event_name: String!
+  description: String
+
+  volunteers: [String!]!
+  num_volunteers: Int
+
+  location: String!
+  date: AWSDate!
+  start_time: AWSTime!
+  end_time: AWSTime!
+}
