@@ -3,6 +3,7 @@ import {Route, Switch} from 'react-router-dom';
 import { Auth } from 'aws-amplify';
 import {Link} from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+import {createSESObj} from './libs/sesClient.js';
 
 import Landing from './pages/Landing.js';
 import Discover from './pages/info/Discover.js';
@@ -26,7 +27,8 @@ const initialFormState = {
   name: '',
   authCode: '',
   formType:'signIn',
-  idToken: ''
+  idToken:'',
+  sesObj: {} 
 };
 
 const homeLinkStyle = {
@@ -43,15 +45,11 @@ function App() {
   async function signOut() {
     try {
         await Auth.signOut();
-        setFormState({...formState, formType: 'signIn'});
-        window.location.reload();
+        window.location.reload(); //Reloading the page resets the state of the hooks
     } catch (error) {
         console.log('error signing out: ', error);
     }
   }
-  useEffect(() => {
-    onLoad();
-  }, []);
   async function onLoad() {
     //In the case of a page refresh, get the user again and set the state
     try {
@@ -68,8 +66,14 @@ function App() {
     }
     setIsAuthenticating(false);
   }
-
-  const {idToken, name, email} = formState;
+  useEffect(() => {
+    //Upon sign in, the an ses object is created for email capabilities
+    setFormState({...formState, sesObj: createSESObj(idToken)});
+  }, [isAuthenticated]);
+  useEffect(() => {
+    onLoad();
+  }, []);
+  const {sesObj, idToken, name, email} = formState;
   return (
     !isAuthenticating && ( //Render only when checking auth is done
     <div className="App">
@@ -96,10 +100,10 @@ function App() {
           <Dashboard email={email}/>
         </PrivateRoute>
         <PrivateRoute exact path="/schedule" auth={isAuthenticated}>
-          <Schedule token={idToken} email={email} isOrg={isOrg}/>
+          <Schedule sesObj={sesObj} email={email} isOrg={isOrg}/>
         </PrivateRoute>
         <PrivateRoute exact path="/manage_events" auth={isAuthenticated}>
-          <ManageEvents orgName={name} isOrg={isOrg}/>
+          <ManageEvents sesObj={sesObj} orgName={name} isOrg={isOrg}/>
         </PrivateRoute>
         <PrivateRoute exact path="/profile" auth={isAuthenticated}>
           <Profile email={email} name={name}/>

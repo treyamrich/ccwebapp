@@ -8,6 +8,7 @@ import { formatDate, subtractTime } from './DateTimeFunctions.js';
 import { eventByCreated } from '../../graphql/queries.js';
 import { createEvent, deleteEvent } from '../../graphql/mutations.js';
 import { checkEmptyFields } from '../EmptyFields.js';
+import { email_removed_event } from './AWS_SES_Email_Function.js';
 
 const initialEventState = {
 	event_name: '',
@@ -15,7 +16,7 @@ const initialEventState = {
 	location: '',
 }
 
-function ManageEvents({orgName, isOrg}) {
+function ManageEvents({sesObj, orgName, isOrg}) {
 
 	const [selDate, chDate] = useState(new Date());
 	const [selStartTime, chStartTime] = useState('10:00');
@@ -47,6 +48,7 @@ function ManageEvents({orgName, isOrg}) {
 		//Make new event if all checks pass
 		try{
 			var formatted_date = formatDate(selDate);
+			//Create event in database
 			const apiData = await API.graphql({query: createEvent, variables: { input: {
 				organization_name: orgName,
 				event_name: event_name,
@@ -70,8 +72,10 @@ function ManageEvents({orgName, isOrg}) {
 			alert("Error creating event.");
 		}
 	}
-	async function removeEvent({id}, index) {
+	async function removeEvent(event, index) {
+		const {id, volunteers} = event; 
 		try {
+			//Remove event from database
 			await API.graphql({query: deleteEvent, variables: { input: {
 				id: id
 			}}});
@@ -80,6 +84,19 @@ function ManageEvents({orgName, isOrg}) {
 			if (index !== -1) {
 			    newEvents.splice(index, 1);
 			    setEvents(newEvents);
+			}
+			//Email all volunteers if there are any
+			if(volunteers.length > 0) {
+				//Split the volunteers list because the max amount of recipients per SendEmailCommand for AWS SES is 50
+				var volunteerBatch; //Temp array for each batch of volunteers
+				for(let i = 0; i < volunteers.length; i+=50) {
+					if(i/50 == volunteers.length - 1) { //If last iteration, batch = remainder so slice from i to length of array
+						volunteerBatch = volunteers.slice(i, volunteers.length);
+					} else { //Else, slice from i to i+50
+						volunteerBatch = volunteers.slice(i, i+50);
+					}
+					await email_removed_event(sesObj, volunteerBatch, event);
+				}
 			}
 		} catch(err){
 			alert("Error removing event.");
@@ -101,6 +118,9 @@ function ManageEvents({orgName, isOrg}) {
 		fetchEvents();
 	}, []);
 	//If not an organization, deny access
+	if(!isOrg) {
+		return <h1>This page is not available.</h1>;
+	}
 	return(
 		<div>
 			<div className="calendar-div">

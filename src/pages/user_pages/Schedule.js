@@ -5,9 +5,9 @@ import { API } from 'aws-amplify';
 import { listEvents } from '../../graphql/queries.js';
 import { updateEvent } from '../../graphql/mutations.js';
 import { formatDate } from './DateTimeFunctions.js';
-import { emailUser } from './AWS_SES_Email_Function.js';
+import { email_register_user } from './AWS_SES_Email_Function.js';
 
-function Schedule({token, email, isOrg}) {
+function Schedule({sesObj, email, isOrg}) {
 	const [selDate, chDate] = useState(new Date());
 	const [events, setEvents] = useState([]);
 	const [registerBitMap, setRegisterBitMap] = useState([]);
@@ -41,14 +41,16 @@ function Schedule({token, email, isOrg}) {
 		fetchEvents();
 	}, [selDate]);
 
-	async function register({id, volunteers, num_volunteers, event_name, organization_name, description, date, start_time, end_time, location}, index) {
+	async function register(event, index) {
+		const {id, volunteers, num_volunteers} = event;
 		try {
 			await API.graphql({query: updateEvent, variables:{ input: {id: id, num_volunteers: (num_volunteers + 1), volunteers: [...volunteers, email]}}});
 			//Show register success by updating state
 			var prevBitMap = [...registerBitMap];
 			prevBitMap.splice(index, 1, 1); //Flip the bit
 			setRegisterBitMap(prevBitMap);
-			await emailUser(token, email, event_name, organization_name, description, date, start_time, end_time, location);
+			//Email the user the information about the event
+			await email_register_user(sesObj, email, event);
 		} catch(err){ 
 			console.log(err);
 			alert("Error registering event");
