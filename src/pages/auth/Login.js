@@ -9,7 +9,8 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
 	const [redirect, setRedirect] = useState(false);
 	const [error, setError] = useState("none");
 
-	async function signUp() {
+	async function signUp(e) {
+		e.preventDefault();
 		//Check for empty strings
 		if(checkEmptyFields("signUpInput")) {
 			return;
@@ -33,7 +34,8 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
 	        setError(e.message);
 	    }
   	}
-  	async function changePassword() {
+  	async function changePassword(e) {
+  		e.preventDefault();
   		if(checkEmptyFields("signUpInput")) { //Check for empty strings
 			return;
 		}
@@ -49,7 +51,8 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
 			setError(e.message);
 		}
   	}
-  	async function sendCode() {
+  	async function sendCode(e) {
+  		e.preventDefault();
   		//Check for empty strings
 		if(checkEmptyFields("signUpInput")) {
 			return;
@@ -67,7 +70,8 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
   			}
   		}
   	}
-  	async function signIn() {
+  	async function signIn(e) {
+  		e.preventDefault();
 	    try {
 	        const user = await Auth.signIn(username, password);
 	        const groups = user.signInUserSession.accessToken.payload["cognito:groups"];
@@ -87,83 +91,87 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
 			{error !== "none" ? <p style={{color: "red"}}> {error} </p> : null}
 			{formType === 'signIn' && (
 				<div>
-					<h1 style={{color:"#808000", width: "100%", marginBottom: "50px"}}>Compassion Connection</h1>
-					<ul className="login">
-						<li className="login">
-							<input onChange={(e)=>setFormState({...formState, username: e.target.value.toLowerCase()})}
-													placeholder="Email"
-													value={username}
-													type="text" 
-													className="login"
+					<form onSubmit ={signIn}>
+						<h1 style={{color:"#808000", width: "100%", marginBottom: "50px"}}>Compassion Connection</h1>
+						<ul className="login">
+							<li className="login">
+								<input onChange={(e)=>setFormState({...formState, username: e.target.value.toLowerCase()})}
+														placeholder="Email"
+														value={username}
+														type="text" 
+														className="login"
+														/> 
+							</li>
+							<li className="login">
+							<input onChange={(e)=>setFormState({...formState, password: e.target.value})}
+													placeholder="Password"
+													value={password}
+													type="password"
+													className="login" 
 													/> 
-						</li>
-						<li className="login">
-						<input onChange={(e)=>setFormState({...formState, password: e.target.value})}
-												placeholder="Password"
-												value={password}
-												type="password"
-												className="login" 
-												/> 
-						</li>
-						<li className="login">
-							<button className="login" onClick={signIn}> Login </button>
-						</li>
-						<li className="login">
-							<button className="login" onClick={()=>{setFormState({...formState, username: '', password: '', confNewPw:'', formType: 'signUp'}); setError("none");}}>Sign Up</button>
-						</li>
-						<li className="login">
-							<button className="login" onClick={()=>setFormState({...formState, formType:'forgotPassword'})}> Forgot Password </button>
-						</li>
-					</ul>
+							</li>
+							<li className="login">
+								<button className="login" type="submit"> Login </button>
+							</li>
+							<li className="login">
+								<button className="login" onClick={()=>{setFormState({...formState, username: '', password: '', confNewPw:'', formType: 'signUp'}); setError("none");}}>Sign Up</button>
+							</li>
+							<li className="login">
+								<button className="login" onClick={()=>setFormState({...formState, formType:'forgotPassword'})}> Forgot Password </button>
+							</li>
+						</ul>
+					</form>
 				</div>
 			)}
 			{formType === 'signUp' && (
 				<div>
-					<h1 style={{color:"#808000", width: "100%", marginBottom: "50px"}}>Sign Up</h1>
-					<ul className="login">
-						<li className="login">
-							<input onChange={(e)=>setFormState({...formState, name: e.target.value})}
-												placeholder="Name"
-												value={name}
-												type="text" 
-												className="login"
-												name="signUpInput"
-												/>
-						</li>
-						<li className="login"> 
-							<input onChange={(e)=>setFormState({...formState, username: e.target.value.toLowerCase()})}
-												placeholder="Email"
-												value={username}
-												type="text"
-												className="login"
-												name="signUpInput" 
-												/>
-						</li> 
-						<li className="login">
-							<input onChange={(e)=>setFormState({...formState, password: e.target.value})}
-												placeholder="Password"
-												value={password}
-												type="password"
-												className="login"
-												name="signUpInput" 
-												/>
-						</li> 
-						<li className="login">
-							<input onChange={(e)=>setFormState({...formState, confNewPw: e.target.value})}
-												placeholder="Confirm Password"
-												value={confNewPw}
-												type="password"
-												className="login"
-												name="signUpInput" 
-												/>
-						</li>
-						<li className="login">
-							<button className="login" onClick={signUp}> Confirm </button>
-						</li>
-						<li className="login">
-							<button className="login" onClick={()=>{setFormState({...formState, password: '', confNewPw:'', username:'', name:'', formType: 'signIn'}); setError("none");}}>I already have an account. </button>
-						</li>
-					</ul>
+					<form onSubmit ={signUp}>
+						<h1 style={{color:"#808000", width: "100%", marginBottom: "50px"}}>Sign Up</h1>
+						<ul className="login">
+							<li className="login">
+								<input onChange={(e)=>setFormState({...formState, name: e.target.value})}
+													placeholder="Name"
+													value={name}
+													type="text" 
+													className="login"
+													name="signUpInput"
+													/>
+							</li>
+							<li className="login"> 
+								<input onChange={(e)=>setFormState({...formState, username: e.target.value.toLowerCase()})}
+													placeholder="Email"
+													value={username}
+													type="text"
+													className="login"
+													name="signUpInput" 
+													/>
+							</li> 
+							<li className="login">
+								<input onChange={(e)=>setFormState({...formState, password: e.target.value})}
+													placeholder="Password"
+													value={password}
+													type="password"
+													className="login"
+													name="signUpInput" 
+													/>
+							</li> 
+							<li className="login">
+								<input onChange={(e)=>setFormState({...formState, confNewPw: e.target.value})}
+													placeholder="Confirm Password"
+													value={confNewPw}
+													type="password"
+													className="login"
+													name="signUpInput" 
+													/>
+							</li>
+							<li className="login">
+								<button className="login" type="submit"> Confirm </button>
+							</li>
+							<li className="login">
+								<button className="login" onClick={()=>{setFormState({...formState, password: '', confNewPw:'', username:'', name:'', formType: 'signIn'}); setError("none");}}>I already have an account. </button>
+							</li>
+						</ul>
+					</form>
 				</div>
 			)}
 			{formType === 'confirmSignUp' && (
@@ -178,64 +186,68 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
 			)}
 			{formType === 'forgotPassword' && (
 				<div>
-					<h3 style={{color:"#808000", width: "100%", marginBottom: "50px"}}>Forgot Password</h3>
-					<ul className="login">
-						<li className="login">
-							<input onChange={(e)=>setFormState({...formState, username: e.target.value})}
-												placeholder="Email"
-												value={username}
-												type="text"
-												className="login"
-												name="signUpInput" 
-												/>
-						</li>
-						<li className="login">
-							<button className="login" onClick={sendCode}>Send Code</button>
-						</li>
-						<li className="login">
-							<button className="login" onClick={()=>{setFormState({...formState, username:'', name:'', password:'', authCode:'', formType: 'signIn'});setError("none")}}> Cancel </button>
-						</li>
-					</ul>
+					<form onSubmit={sendCode}>
+						<h3 style={{color:"#808000", width: "100%", marginBottom: "50px"}}>Forgot Password</h3>
+						<ul className="login">
+							<li className="login">
+								<input onChange={(e)=>setFormState({...formState, username: e.target.value})}
+													placeholder="Email"
+													value={username}
+													type="text"
+													className="login"
+													name="signUpInput" 
+													/>
+							</li>
+							<li className="login">
+								<button className="login" type="submit">Send Code</button>
+							</li>
+							<li className="login">
+								<button className="login" onClick={()=>{setFormState({...formState, username:'', name:'', password:'', authCode:'', formType: 'signIn'});setError("none")}}> Cancel </button>
+							</li>
+						</ul>
+					</form>
 				</div>
 			)}
 			{formType === 'changePassword' && (
 				<div>
-					<h3 style={{color:"#808000", width: "100%", marginBottom: "50px"}}>Please check your email. Enter code and new password.</h3>
-					<ul className="login">
-						<li className="login">
-							<input onChange={(e)=>setFormState({...formState, authCode: e.target.value})}
-												placeholder="Enter Code"
-												value={authCode}
-												type="text"
-												className="login"
-												name="signUpInput" 
-												/>
-						</li>
-						<li className="login">
-							<input onChange={(e)=>setFormState({...formState, newPw: e.target.value})}
-												placeholder="New Password"
-												value={newPw}
-												type="password"
-												className="login"
-												name="signUpInput" 
-												/>
-						</li>
-						<li className="login">
-							<input onChange={(e)=>setFormState({...formState, confNewPw: e.target.value})}
-												placeholder="Confirm New Password"
-												value={confNewPw}
-												type="password"
-												className="login"
-												name="signUpInput" 
-												/>
-						</li>
-						<li className="login">
-							<button className="login" onClick={changePassword}>Change Password</button>
-						</li>
-						<li className="login">
-							<button className="login" onClick={()=>{setFormState({...formState, username:'', name:'', newPw:'', confNewPw:'', authCode:'', formType: 'signIn'});setError("none")}}> Cancel </button>
-						</li>
-					</ul>
+					<form onSubmit={changePassword}>
+						<h3 style={{color:"#808000", width: "100%", marginBottom: "50px"}}>Please check your email. Enter code and new password.</h3>
+						<ul className="login">
+							<li className="login">
+								<input onChange={(e)=>setFormState({...formState, authCode: e.target.value})}
+													placeholder="Enter Code"
+													value={authCode}
+													type="text"
+													className="login"
+													name="signUpInput" 
+													/>
+							</li>
+							<li className="login">
+								<input onChange={(e)=>setFormState({...formState, newPw: e.target.value})}
+													placeholder="New Password"
+													value={newPw}
+													type="password"
+													className="login"
+													name="signUpInput" 
+													/>
+							</li>
+							<li className="login">
+								<input onChange={(e)=>setFormState({...formState, confNewPw: e.target.value})}
+													placeholder="Confirm New Password"
+													value={confNewPw}
+													type="password"
+													className="login"
+													name="signUpInput" 
+													/>
+							</li>
+							<li className="login">
+								<button className="login" type="submit">Change Password</button>
+							</li>
+							<li className="login">
+								<button className="login" onClick={()=>{setFormState({...formState, username:'', name:'', newPw:'', confNewPw:'', authCode:'', formType: 'signIn'});setError("none")}}> Cancel </button>
+							</li>
+						</ul>
+					</form>
 				</div>
 			)}
 			{formType === 'pwChangeSuccess' && (
