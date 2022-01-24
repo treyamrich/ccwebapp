@@ -1,7 +1,7 @@
 //Highlights input fields red if they're empty. Returns true if any fields were empty.
 export function checkEmptyFields(fieldName) { 
 	var empty = false; //flag variable
-	var arr = document.getElementsByName(fieldName);
+	var arr = document.getElementsByClassName(fieldName);
 	for(var i=0; i<arr.length;i++){
         if(arr[i].value === "") {
         	empty = true;

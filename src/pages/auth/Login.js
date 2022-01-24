@@ -12,7 +12,7 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
 	async function signUp(e) {
 		e.preventDefault();
 		//Check for empty strings
-		if(checkEmptyFields("signUpInput")) {
+		if(checkEmptyFields("form_input")) {
 			return;
 		}
 		if(password !== confNewPw) { //Check if passwords match. *Note confNewPw is just confirm password*
@@ -36,7 +36,7 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
   	}
   	async function changePassword(e) {
   		e.preventDefault();
-  		if(checkEmptyFields("signUpInput")) { //Check for empty strings
+  		if(checkEmptyFields("form_input")) { //Check for empty strings
 			return;
 		}
 		if(newPw !== confNewPw) { //Check if passwords match
@@ -54,7 +54,7 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
   	async function sendCode(e) {
   		e.preventDefault();
   		//Check for empty strings
-		if(checkEmptyFields("signUpInput")) {
+		if(checkEmptyFields("form_input")) {
 			return;
 		}
   		// Send confirmation code to user's email
@@ -99,7 +99,8 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
 														placeholder="Email"
 														value={username}
 														type="text" 
-														className="login"
+														className="login form_input" 
+														name="signin_email"
 														/> 
 							</li>
 							<li className="login">
@@ -107,17 +108,17 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
 													placeholder="Password"
 													value={password}
 													type="password"
-													className="login" 
+													className="login form_input" 
 													/> 
 							</li>
 							<li className="login">
 								<button className="login" type="submit"> Login </button>
 							</li>
 							<li className="login">
-								<button className="login" onClick={()=>{setFormState({...formState, username: '', password: '', confNewPw:'', formType: 'signUp'}); setError("none");}}>Sign Up</button>
+								<button className="login" type="button" onClick={()=>{setFormState({...formState, username: '', password: '', confNewPw:'', formType: 'signUp'}); setError("none");}}>Sign Up</button>
 							</li>
 							<li className="login">
-								<button className="login" onClick={()=>setFormState({...formState, formType:'forgotPassword'})}> Forgot Password </button>
+								<button className="login" type="button" onClick={()=>setFormState({...formState, formType:'forgotPassword'})}> Forgot Password </button>
 							</li>
 						</ul>
 					</form>
@@ -133,8 +134,8 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
 													placeholder="Name"
 													value={name}
 													type="text" 
-													className="login"
-													name="signUpInput"
+													className="login form_input"
+													name="signup_name"
 													/>
 							</li>
 							<li className="login"> 
@@ -142,8 +143,8 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
 													placeholder="Email"
 													value={username}
 													type="text"
-													className="login"
-													name="signUpInput" 
+													className="login form_input"
+													name="signup_email" 
 													/>
 							</li> 
 							<li className="login">
@@ -151,8 +152,8 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
 													placeholder="Password"
 													value={password}
 													type="password"
-													className="login"
-													name="signUpInput" 
+													className="login form_input"
+													name="signup_pw"
 													/>
 							</li> 
 							<li className="login">
@@ -160,15 +161,16 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
 													placeholder="Confirm Password"
 													value={confNewPw}
 													type="password"
-													className="login"
-													name="signUpInput" 
+													className="login form_input"
+													name="signup_confpw" 
 													/>
 							</li>
 							<li className="login">
 								<button className="login" type="submit"> Confirm </button>
 							</li>
 							<li className="login">
-								<button className="login" onClick={()=>{setFormState({...formState, password: '', confNewPw:'', username:'', name:'', formType: 'signIn'}); setError("none");}}>I already have an account. </button>
+								<button className="login" type="button" onClick={()=>{setFormState({...formState, password: '', confNewPw:'', username:'', name:'', formType: 'signIn'}); setError("none");}}>
+										I already have an account. </button>
 							</li>
 						</ul>
 					</form>
@@ -179,7 +181,8 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
 					<h3 style={{color:"#808000", width: "100%", marginBottom: "50px"}}>Please check your email for a confirmation link.</h3>
 					<ul className="login">
 						<li className="login">
-							<button className="login" onClick={()=>setFormState({...formState, confNewPw:'', username:'', name:'', password:'', authCode:'', formType: 'signIn'})}> Back To Login </button>
+							<button className="login" type="button" onClick={()=>setFormState({...formState, confNewPw:'', username:'', name:'', password:'', authCode:'', formType: 'signIn'})}> 
+										Back To Login </button>
 						</li>
 					</ul>
 				</div>
@@ -194,15 +197,16 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
 													placeholder="Email"
 													value={username}
 													type="text"
-													className="login"
-													name="signUpInput" 
+													className="login form_input"
+													name="forgot_password_email" 
 													/>
 							</li>
 							<li className="login">
 								<button className="login" type="submit">Send Code</button>
 							</li>
 							<li className="login">
-								<button className="login" onClick={()=>{setFormState({...formState, username:'', name:'', password:'', authCode:'', formType: 'signIn'});setError("none")}}> Cancel </button>
+								<button className="login" type="button" onClick={()=>{setFormState({...formState, username:'', name:'', password:'', authCode:'', formType: 'signIn'});setError("none")}}> 
+											Cancel </button>
 							</li>
 						</ul>
 					</form>
@@ -218,8 +222,8 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
 													placeholder="Enter Code"
 													value={authCode}
 													type="text"
-													className="login"
-													name="signUpInput" 
+													className="login form_input"
+													name="forgot_authcode" 
 													/>
 							</li>
 							<li className="login">
@@ -227,8 +231,8 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
 													placeholder="New Password"
 													value={newPw}
 													type="password"
-													className="login"
-													name="signUpInput" 
+													className="login form_input"
+													name="forgot_newpw" 
 													/>
 							</li>
 							<li className="login">
@@ -236,15 +240,16 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
 													placeholder="Confirm New Password"
 													value={confNewPw}
 													type="password"
-													className="login"
-													name="signUpInput" 
+													className="login form_input"
+													name="forgot_confnewpw" 
 													/>
 							</li>
 							<li className="login">
 								<button className="login" type="submit">Change Password</button>
 							</li>
 							<li className="login">
-								<button className="login" onClick={()=>{setFormState({...formState, username:'', name:'', newPw:'', confNewPw:'', authCode:'', formType: 'signIn'});setError("none")}}> Cancel </button>
+								<button className="login" type="button" onClick={()=>{setFormState({...formState, username:'', name:'', newPw:'', confNewPw:'', authCode:'', formType: 'signIn'});setError("none")}}> 
+											Cancel </button>
 							</li>
 						</ul>
 					</form>
@@ -255,7 +260,8 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
 					<h3 style={{color:"#808000", width: "100%", marginBottom: "50px"}}>Password Successfully Changed.</h3>
 					<ul className="login">
 						<li className="login">
-							<button className="login" onClick={()=>setFormState({...formState, username:'', name:'', password:'', authCode:'', formType: 'signIn'})}> Back To Login </button>
+							<button className="login" type="button" onClick={()=>setFormState({...formState, username:'', name:'', password:'', authCode:'', formType: 'signIn'})}> 
+										Back To Login </button>
 						</li>
 					</ul>
 				</div>
