@@ -1,9 +1,15 @@
 import React from 'react';
 import logo from "../../CompassionConnectionLogo.png";
+import {Helmet} from "react-helmet";
 
 function About() {
 	return(
 		<div style={{textAlign:"center"}}>
+			<Helmet>
+              <title>CC Oahu - About</title>
+              <meta name="description" content="Learn about our mission at Compassion Connection Oahu." />
+              <meta name="keywords" content="About, Compassion, Connection, Oahu, Hawaii" />
+        	</Helmet>
 			<h1 style={{color: "#808000"}}>Compassion Connection</h1>
 			<p style={{width:"50%", margin:"auto", marginBottom:"20px"}}>
 				Welcome to compassion connection and thank you for taking the time out of your day to check us out. 

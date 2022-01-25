@@ -1,9 +1,15 @@
 import React from 'react';
+import {Helmet} from "react-helmet";
 import logo from "../../CompassionConnectionLogo.png";
 
 function Donate() {
 	return(
 		<div style={{textAlign:"center"}}>
+			<Helmet>
+              <title>CC Oahu - About</title>
+              <meta name="description" content="Donations are much welcomed and help us keep the platform running." />
+              <meta name="keywords" content="Donate, Compassion, Connection, Oahu, Hawaii" />
+        	</Helmet>
 			<h1 style={{color: "#808000"}}> Donations </h1>
 			<p style={{width:"50%", margin:"auto", marginBottom:"20px"}}>
 				THANK YOU FOR DONATING!
