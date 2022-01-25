@@ -78,6 +78,11 @@ function App() {
     !isAuthenticating && ( //Render only when checking auth is done
     <div className="App">
       <header className="App-header">
+        <Helmet>
+              <title>Compassion Connection Oahu</title>
+              <meta name="description" content="Volunteer discovery platform for the island of Oahu. Find volunteer opportunities all over the island for any type of community service. From beach cleanups to animal shelters you can find everything you need here!" />
+              <meta name="keywords" content="Volunteer, Hawaii, Compassion, Connection" />
+        </Helmet>
         <ul className="nav">
           <li className ="landing"> <Link style={homeLinkStyle} to="/"> Home </Link> </li>
           {isOrg===true ? <li className ="landing"> <Link style={homeLinkStyle} to="/manage_events"> Manage Events </Link> </li>: null}
