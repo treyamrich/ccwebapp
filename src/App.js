@@ -51,7 +51,7 @@ function App() {
     }
   }
   async function onLoad() {
-    //In the case of a page refresh, get the user again and set the state
+    //In the case of a page refresh/load, get the user again and set the state
     try {
       const user = await Auth.currentAuthenticatedUser();
       const groups = user.signInUserSession.accessToken.payload["cognito:groups"]; //Get user group to check if they're an organization
@@ -60,6 +60,7 @@ function App() {
       if(groups!== undefined && groups[0] === "organization") setIsOrg(true);
     }
     catch(e) {
+      console.log(e);
       if (e !== 'The user is not authenticated') {
         alert(e);
       }
@@ -79,12 +80,27 @@ function App() {
     <div className="App">
       <header className="App-header">
         <ul className="nav">
-          <li className ="landing"> <Link style={homeLinkStyle} to="/"> Home </Link> </li>
-          {isOrg===true ? <li className ="landing"> <Link style={homeLinkStyle} to="/manage_events"> Manage Events </Link> </li>: null}
-          {isAuthenticated===true && isOrg===false ? <li className="landing"> <Link style={homeLinkStyle} to="/dashboard"> Dashboard </Link> </li> : null}
-          {isAuthenticated===true ? <li className="landing"> Welcome {name}. </li> : null}
-          {isAuthenticated===true ? <li className="landing"> <Link style={homeLinkStyle} to="/profile"> Profile </Link> </li> : null}
-          <li className = "landing"> {!isAuthenticated ? <Link style={homeLinkStyle} to="/login"> Login </Link> : <button className="header" onClick={()=>signOut()}> Sign out </button>} </li>
+          <li className ="landing"> 
+            <Link style={homeLinkStyle} to="/"> Home </Link> 
+          </li>
+          <li className="landing" id="nav-sel">
+            <button className="header" onClick={()=>console.log("hi")}>More</button> 
+          </li>
+          {isOrg===true ? <li className ="landing navs"> 
+            <Link style={homeLinkStyle} to="/manage_events"> Manage Events </Link> </li>: null}
+          {isAuthenticated===true && isOrg===false ? 
+            <li className="landing navs"> 
+              <Link style={homeLinkStyle} to="/dashboard"> Dashboard </Link> 
+            </li> : null}
+          {isAuthenticated===true ? 
+            <li className="landing navs"> 
+              <Link style={homeLinkStyle} to="/profile"> Profile </Link> 
+            </li> : null}
+          {isAuthenticated===true ? <li className="landing navs"> Welcome {name}. </li> : null}
+          <li className = "landing navs"> {!isAuthenticated ? 
+            <Link style={homeLinkStyle} to="/login"> Login </Link> : 
+            <button className="header" onClick={()=>signOut()}> Sign out </button>} 
+          </li>
         </ul>
       </header>
 

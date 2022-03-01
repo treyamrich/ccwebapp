@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listEvents } from '../../graphql/queries.js';
 import { formatDate } from './DateTimeFunctions.js';
+import "./events.css";
 
 function Dashboard({email}) {
 
@@ -27,15 +28,16 @@ function Dashboard({email}) {
 	
 	return(
 		<div>
-			<h1 className="manage-header">Enrolled events</h1>
+			<h1 className="event-header" id="dash-header">Enrolled events</h1>
 			<div className="events-wrapper">
 			{events.length === 0 ? <h2 style={{textAlign:"center"}}> No events </h2> : null}
 			{
 				events.map((event, index) => (
 					<div className={index === 0 ? "first-event": "events"} key={index}>
 						<h4> Event Name: {event.event_name} </h4>
-						<h5> Description: {event.description} </h5>
-						<ul>
+						<h5> <em>Host: {event.organization_name}</em></h5>
+						<h5><em>Description: {event.description}</em></h5>
+						<ul className="events">
 							<li>Date: {event.date}</li>
 							<li>Time: {event.start_time} - {event.end_time}</li>
 							<li>Location: {event.location}</li>
@@ -44,15 +46,16 @@ function Dashboard({email}) {
 				))
 			}
 			</div>
-			<h1 className="manage-header">Attended Events </h1>
+			<h1 className="event-header" id="dash-header">Attended Events </h1>
 			<div className="events-wrapper">
 			{prevEvents.length === 0 ? <h2 style={{textAlign:"center"}}> No attended events </h2> : null}
 			{
 				prevEvents.map((event, index) => (
 					<div className={index === 0 ? "first-event": "events"} key={index}>
 						<h4> Event Name: {event.event_name} </h4>
-						<h5> Description: {event.description} </h5>
-						<ul>
+						<h5><em>Host: {event.organization_name}</em></h5>
+						<h5><em>Description: {event.description}</em></h5>
+						<ul className="events">
 							<li>Date: {event.date}</li>
 							<li>Time: {event.start_time} - {event.end_time}</li>
 							<li>Location: {event.location}</li>

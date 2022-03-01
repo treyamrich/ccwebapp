@@ -1,0 +1,106 @@
+/*Login global*/
+div.main_wrapper {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+button.log_alt:hover {
+  color: #3C8C97;
+}
+/*Alternate login choices: sign-up/forgotpw*/
+button.log_alt {
+  color: #52B2BF;
+  border: none;
+  font-weight: bold;
+  padding: 0px;
+}
+@media screen and (min-width: 961px) {
+  div.login {
+    width: 25%;
+    background-color: white;
+    border: 15px solid #52B2BF;
+    text-align: center;
+    margin: auto;
+    border-radius: 3px;
+    padding: 20px;
+  }
+  .login_header {
+    font-size: 2em;
+    margin: 0px;
+  }
+  button {
+    padding: .2vw;
+  }
+  input.login {
+    width: 75%;
+    height: 30px;
+    padding-left: 10px;
+  }
+  button.login {
+    width: 20%;
+    background-color: transparent;
+    outline: none;
+    border: 3px solid #52B2BF;
+    border-radius: 3px;
+  }
+  li.login {
+    margin-bottom: 5px;
+    font-size: 1.2em;
+  }
+  ul.login {
+    margin: 2vw 0 0 0;
+  }
+  li.log_alt {
+    margin-top: .3vw;
+  }
+}
+@media screen and (max-width: 960px) {
+  div.login {
+    width: 85%;
+    background-color: white;
+    text-align: center;
+    margin: auto;
+    margin-top: 25vw;
+    border-radius: 3px;
+    border: 2vw solid #52B2BF;
+    padding: 3%;
+  }
+  .login_header {
+    font-size: 7vw;
+    margin: 0px;
+  }
+  input.login {
+    width: 80%;
+    padding-left: 10px;
+    padding: .2em;
+    font-size: 4vw;
+    height: 8vw;
+  }
+  button {
+    padding: 1vw;
+  }
+  /*Login button*/
+  button.login {
+    width: 30%;
+    border: 3px solid #52B2BF;
+    border-radius: 3px;
+    font-size: 4vw;
+  }
+  li.login {
+    margin-bottom: 2vw;
+    font-size: 4vw;
+  }
+  ul.login {
+    margin: 2vw 0 0 0;
+  }
+  li.log_alt {
+    margin-top: 1vw;
+  }
+  button.log_alt {
+    font-size: 3vw;
+  }
+  div.info {
+    padding: 2vw;
+  }
+}

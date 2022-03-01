@@ -1,158 +1,69 @@
+h1 {
+  color: #808000;
+}
+h3 {
+  color: #808000;
+}
+html {
+  font-size: 16px;
+}
 li.landing {
-  display: inline;
+  display: inline-block;
   margin-right: 30px;
-  font-size: 18px;
+  margin-bottom: 5px;
+  font-size: 1.2rem;
   border-radius: 2px;
   background-color: white;
   color: #808000;
+  width: auto;
   padding: 3px;
 }
 ul {
   list-style-type: none;
-  padding:  0;
+  padding: 0;
 }
 ul.nav {
   padding-left: 20px;
 }
 button.header {
-   border:none;
-   background-color:transparent;
-   outline:none;
-   font-size: 18px;
-   color: #808000;
+  border: none;
+  padding: 0;
+  background-color: transparent;
+  outline: none;
+  font-size: 1.2rem;
+  color: #808000;
 }
-#signout {
-  width: 100px;
-}
-
 header.App-header {
   font-size: 14px;
   background-color: #52B2BF;
   border-radius: 2px;
   padding: 2px;
 }
-
-input.text-entry {
-  margin-left: 20px;
-}
-/*Landing Page*/
-.navs {
-  text-align: center;
-  font-size: 30px;
-  color: black;
-  text-decoration: none;
-}
-div.landing_links {
-  margin-top: 50px;
-}
-#register-button {
+button {
   background-color: transparent;
-  outline: none;
-  border: 1px solid black;
-  border-radius: 3px;
-  color: black;
-  margin-bottom: 10px;
 }
-#remove-button {
-  background-color: transparent;
-  outline: none;
-  border: 1px solid black;
-  border-radius: 3px;
-  color: red;
-  margin-bottom: 10px;
+@media screen and (min-width: 961px) {
+  img.logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 400px;
+    margin-top: 20px;
+  }
+  /*Display all options button when screen size is small*/
+  #nav-sel {
+    display: none;
+  }
 }
-/*First event has no border */
-.first-event {
-  width: 98%;
-  margin: auto;
-}
-/*All other events have a border*/
-.events {
-  border-top: 1px solid grey;
-  width: 98%;
-  margin: auto;
-}
-
-.calendar-div {
-  margin: auto;
-  margin-top: 10px;
-  margin-bottom: 30px;
-  padding: 20px;
-  width: 50%;
-  text-align: center;
-}
-.myCal {
-  width: 60%;
-  margin: auto;
-}
-.events-wrapper {
-  margin: auto;
-  border: 1px solid grey;
-  width: 98%;
-}
-.section-header {
-  width: 98%;
-  margin: auto;
-  margin-bottom: 10px;
-  color: #52B2BF;
-}
-.manage-header {
-  width: 98%;
-  margin: auto;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  color: #808000;
-  border-bottom: 1px solid grey;
-}
-button.make-event {
-  background-color: transparent;
-  outline: none;
-  border: 3px solid #52B2BF;
-  border-radius: 3px;
-}
-button.manage-view {
-  border:none;
-   background-color:transparent;
-   outline:none;
-   font-size: 18px;
-   margin-left: 20px;
-   margin-bottom: 10px;
-   text-decoration: underline;
-   color: #52B2BF;
-}
-
-/*Main login div*/
-div.login {
-  width: 20%;
-  background-color: white;
-  border: 15px solid #52B2BF;
-  text-align: center;
-  margin: auto;
-  margin-top: 200px;
-  border-radius: 3px;
-  padding: 30px;
-  padding-top: 30px;
-}
-input.login {
-  width: 80%;
-  height: 30px;
-  padding-left: 10px;
-}
-button.login {
-  width: 40%;
-  background-color: transparent;
-  outline: none;
-  border: 3px solid #52B2BF;
-  border-radius: 3px;
-}
-li.login {
-  margin-bottom: 10px;
-}
-
-img.logo {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 500px;
-  margin-top: -40px;
+@media screen and (max-width: 960px) {
+  img.logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    margin-top: 5vw;
+  }
+  li.navs {
+    display: none;
+  }
 }

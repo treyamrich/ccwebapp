@@ -9,6 +9,7 @@ import { eventByCreated } from '../../graphql/queries.js';
 import { createEvent, deleteEvent } from '../../graphql/mutations.js';
 import { checkEmptyFields } from '../EmptyFields.js';
 import { email_removed_event } from './AWS_SES_Email_Function.js';
+import "./events.css";
 
 const initialEventState = {
 	event_name: '',
@@ -125,7 +126,7 @@ function ManageEvents({sesObj, orgName, isOrg}) {
 		<div>
 			<div className="calendar-div">
 				<h1 style={{color:"#52B2BF"}}>Create Event </h1>
-				<h2 style={{color:"#808000"}}>Choose a date </h2>
+				<h2>Choose a date </h2>
 				<Calendar
 					className={["react-calendar", "myCal"]}
 		        	onChange={chDate}
@@ -140,36 +141,32 @@ function ManageEvents({sesObj, orgName, isOrg}) {
 			      <h4> End time </h4>
 			      <TimePicker
 			        onChange={chEndTime}
-			        value={selEndTime}
-			      />
-		     	 <ul style={{listStyleType:"none"}}>
-		     	 	<li> Event Name:
+			        value={selEndTime}/>
+		     	<ul className="manage-event">
+		     	 	<li className="text-entry"> Event Name:
 		     	 		<input onChange={(e)=>setEvent({...event, event_name: e.target.value})}
 							value={event.event_name}
 							type="text"
 							name="createInput"
-							className="text-entry"
-							/> 
+							className="text-entry"/> 
 		     	 	</li>
-		     	 	<li> Description:
+		     	 	<li className="text-entry"> Description:
 		     	 		<input onChange={(e)=>setEvent({...event, desc: e.target.value})}
 							value={event.desc}
 							type="text" 
 							name="createInput"
-							className="text-entry"
-							/> 
+							className="text-entry"/> 
 		     	 	</li>
-		     	 	<li> Location:
+		     	 	<li className="text-entry"> Location:
 		     	 		<input onChange={(e)=>setEvent({...event, location: e.target.value})}
 							value={event.location}
 							type="text" 
 							name="createInput"
-							className="text-entry"
-							/> 
+							className="text-entry"/> 
 		     	 	</li>
-		     	 </ul>
-		     	 {makeEventErr ? <p style={{color: 'red'}}> Please select a valid time interval</p> : null}
-		     	 <button className="make-event" onClick={makeEvent}> Create Event</button>
+		     	</ul>
+		     	{makeEventErr ? <p style={{color: 'red'}}> Please select a valid time interval</p> : null}
+		     	<button className="make-event" onClick={makeEvent}> Create Event</button>
 		    </div>
 
 
@@ -181,14 +178,14 @@ function ManageEvents({sesObj, orgName, isOrg}) {
 		    <div className="events-wrapper">
 	     	{ viewState === "current" && (
 	     		<div>
-		     		<h2 className="manage-header">Current Events</h2>
+		     		<h2 className="event-header" id="manage-header">Current Events</h2>
 		     		{events.length === 0 ? <h2 style={{textAlign:"center"}}> No events </h2> : null}
 		     		{
 		     			events.map((eventObj, index) => (
 							<div className={index === 0 ? "first-event": "events"} key={index}>
 								<h4> Event Name: {eventObj.event_name} </h4>
-								<h5> Description: {eventObj.description} </h5>
-								<ul>
+								<h5><em>Description: {eventObj.description}</em></h5>
+								<ul className="events">
 									<li>Date: {eventObj.date}</li>
 									<li>Time: {eventObj.start_time} - {eventObj.end_time}</li>
 									<li>Location: {eventObj.location}</li>
@@ -209,18 +206,18 @@ function ManageEvents({sesObj, orgName, isOrg}) {
 	     	)}
 	     	{ viewState === "previous" && (
 	     		<div>
-	     			<h2 className="manage-header">Previous Events</h2>
+	     			<h2 className="event-header" id="manage-header">Previous Events</h2>
 		     		{prevEvents.length === 0 ? <h2 style={{textAlign:"center"}}> No previous events </h2> : null}
 		     		{
 		     			prevEvents.map((eventObj, index) => (
 							<div className={index === 0 ? "first-event": "events"} key={index}>
 								<h4> Event Name: {eventObj.event_name} </h4>
-								<h5> Description: {eventObj.description} </h5>
-								<ul>
+								<h5><em>Description: {eventObj.description}</em></h5>
+								<ul className="events">
 									<li>Date: {eventObj.date}</li>
 									<li>Time: {eventObj.start_time} - {eventObj.end_time}</li>
 									<li>Location: {eventObj.location}</li>
-									<li> Number Of Volunteers: {eventObj.num_volunteers} </li>
+									<li> Number of Volunteers: {eventObj.num_volunteers} </li>
 									<li> Volunteers: {eventObj.volunteers.map((volunteer, index)=>{
 										if(index < eventObj.volunteers.length - 1) {
 											return volunteer + ", ";

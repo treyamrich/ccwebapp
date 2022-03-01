@@ -6,6 +6,7 @@ import { listEvents } from '../../graphql/queries.js';
 import { updateEvent } from '../../graphql/mutations.js';
 import { formatDate } from './DateTimeFunctions.js';
 import { email_register_user } from './AWS_SES_Email_Function.js';
+import "./events.css";
 
 function Schedule({sesObj, email, isOrg}) {
 	const [selDate, chDate] = useState(new Date());
@@ -67,22 +68,24 @@ function Schedule({sesObj, email, isOrg}) {
 	       		 	minDate={new Date()}
 	     	 	/>
 	     	</div>
-	     	<h2 className="section-header">Available slots:</h2>
+	     	<h2 className="section-header" style={{textDecoration:"underline"}}>Available slots:</h2>
 	     	<div className="events-wrapper">
 	     		{events.length === 0 ? <h2 style={{textAlign:"center"}}> No events </h2> : null}
 	     		{
 	     			events.map((event, index) => (
 						<div className={index === 0 ? "first-event": "events"} key={index}>
 							<h4> Event Name: {event.event_name} </h4>
-							<h5> Host: {event.organization_name}</h5>
-							<h5> Description: {event.description} </h5>
-							<ul>
+							<h5><em>Host: {event.organization_name}</em></h5>
+							<h5><em>Description: {event.description}</em></h5>
+							<ul className="events">
 								<li>Date: {event.date}</li>
 								<li>Time: {event.start_time} - {event.end_time}</li>
 								<li>Location: {event.location}</li>
 							</ul>
 							<div id={"register-button-" + index}>
-								{!isOrg ? registerBitMap[index] === 0 ? <button id="register-button" onClick={()=>register(event, index)}> Register </button>: <p style={{color: "green"}}> Registered. </p> : null}
+								{!isOrg ? registerBitMap[index] === 0 ? 
+									<button id="register-button" onClick={()=>register(event, index)}> Register </button> : 
+									<p style={{color: "green", marginLeft:"5px"}}> Registered. </p> : null}
 							</div>
 						</div>
 					))

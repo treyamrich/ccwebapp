@@ -1,0 +1,22 @@
+/*Information pages: About, Donate, Discover*/
+p.info {
+  text-indent: 30px;
+  margin: auto;
+}
+div.info {
+  text-align: left;
+  margin: auto;
+}
+h1 {
+  text-align: center;
+  margin-top: 40px;
+}
+@media screen and (min-width: 961px) {
+  div.info {
+    width: 50%;
+  }
+  
+}
+@media screen and (max-width: 960px) {
+  
+}
