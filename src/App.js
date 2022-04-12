@@ -12,6 +12,7 @@ import Donate from './pages/info/Donate.js';
 
 import Login from './pages/auth/Login.js';
 import PrivateRoute from './pages/PrivateRoute.js';
+import SessionLogout from './pages/SessionLogout.js';
 
 import Dashboard from './pages/user_pages/Dashboard.js';
 import Schedule from './pages/user_pages/Schedule.js';
@@ -57,10 +58,9 @@ function App() {
       const groups = user.signInUserSession.accessToken.payload["cognito:groups"]; //Get user group to check if they're an organization
       setFormState({...formState, username: user.username, name: user.attributes.name, email: user.attributes.email, idToken: user.signInUserSession.idToken});
       userHasAuthenticated(true);
-      if(groups!== undefined && groups[0] === "organization") setIsOrg(true);
+      if(groups !== undefined && groups[0] === "organization") setIsOrg(true);
     }
     catch(e) {
-      console.log(e);
       if (e !== 'The user is not authenticated') {
         alert(e);
       }
@@ -68,8 +68,9 @@ function App() {
     setIsAuthenticating(false);
   }
   useEffect(() => {
-    //Upon sign in, the an ses object is created for email capabilities
-    setFormState({...formState, sesObj: createSESObj(idToken)});
+    //Upon sign in, the ses object is created for email capabilities
+    if(isAuthenticated)
+      setFormState({...formState, sesObj: createSESObj(idToken)});
   }, [isAuthenticated]);
   useEffect(() => {
     onLoad();
@@ -103,6 +104,8 @@ function App() {
           </li>
         </ul>
       </header>
+
+      {isAuthenticated===true ? <SessionLogout signOut={signOut}/> : null}
 
       <Switch>
         <Route exact path="/">
