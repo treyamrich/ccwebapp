@@ -80,6 +80,7 @@ function App() {
         <Navbar.Toggle aria-controls="basic-navbar-nav"/>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav>
+            <Nav.Link href="/schedule"> Volunteer </Nav.Link>
             {isOrg===true ? <Nav.Item>
                 <Nav.Link href="/manage_events">Manage Events </Nav.Link>
               </Nav.Item> : null}
