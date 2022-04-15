@@ -14,6 +14,9 @@ export function formatDate(date) {
 
 //Used to subtract two times in a string format HH:MM
 export function subtractTime(time1, time2) {
+	//Check if the times are null
+	if(!(time1 && time2))
+		return 0;
 	var time1hr = parseInt(time1.substr(0, 2));
 	var time1sec = parseInt(time1.substr(3, 5));
 

@@ -1,14 +1,14 @@
-import './App.css';
-import {Route, Switch} from 'react-router-dom';
+import './styles/App.css';
+import logo from "./graphics/cc_logo_new.png";
+import { Route, Switch } from 'react-router-dom';
 import { Auth } from 'aws-amplify';
-import {Link} from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import {createSESObj} from './libs/sesClient.js';
+import { Nav, Navbar } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.css';
+import { createSESObj } from './libs/sesClient.js';
 
 import Landing from './pages/Landing.js';
 import Discover from './pages/info/Discover.js';
-import About from './pages/info/About.js';
-import Donate from './pages/info/Donate.js';
 
 import Login from './pages/auth/Login.js';
 import PrivateRoute from './pages/PrivateRoute.js';
@@ -32,21 +32,16 @@ const initialFormState = {
   sesObj: {} 
 };
 
-const homeLinkStyle = {
-  textDecoration: "none",
-  color: "#808000"
-}
-
 function App() {
   const [formState, setFormState] = useState(initialFormState);
   const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [isAuthenticated, userHasAuthenticated] = useState(false);
-  const [isOrg, setIsOrg] = useState(false); //is an organization
+  const [isOrg, setIsOrg] = useState(false);
 
   async function signOut() {
     try {
         await Auth.signOut();
-        window.location.reload(); //Reloading the page resets the state of the hooks
+        window.location.reload();
     } catch (error) {
         console.log('error signing out: ', error);
     }
@@ -76,34 +71,36 @@ function App() {
     onLoad();
   }, []);
   const {sesObj, idToken, name, email} = formState;
+
   return (
-    !isAuthenticating && ( //Render only when checking auth is done
-    <div className="App">
-      <header className="App-header">
-        <ul className="nav">
-          <li className ="landing"> 
-            <Link style={homeLinkStyle} to="/"> Home </Link> 
-          </li>
-          <li className="landing" id="nav-sel">
-            <button className="header" onClick={()=>console.log("hi")}>More</button> 
-          </li>
-          {isOrg===true ? <li className ="landing navs"> 
-            <Link style={homeLinkStyle} to="/manage_events"> Manage Events </Link> </li>: null}
-          {isAuthenticated===true && isOrg===false ? 
-            <li className="landing navs"> 
-              <Link style={homeLinkStyle} to="/dashboard"> Dashboard </Link> 
-            </li> : null}
-          {isAuthenticated===true ? 
-            <li className="landing navs"> 
-              <Link style={homeLinkStyle} to="/profile"> Profile </Link> 
-            </li> : null}
-          {isAuthenticated===true ? <li className="landing navs"> Welcome {name}. </li> : null}
-          <li className = "landing navs"> {!isAuthenticated ? 
-            <Link style={homeLinkStyle} to="/login"> Login </Link> : 
-            <button className="header" onClick={()=>signOut()}> Sign out </button>} 
-          </li>
-        </ul>
-      </header>
+    !isAuthenticating && (
+    <div>
+      <Navbar className="navbar" fixed="top" expand="lg" bg="dark" variant="dark">
+        <Navbar.Brand href="/"> Compassion Connection </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav>
+            {isOrg===true ? <Nav.Item>
+                <Nav.Link href="/manage_events">Manage Events </Nav.Link>
+              </Nav.Item> : null}
+            {isAuthenticated===true && isOrg===false ?  
+              <Nav.Item>
+                <Nav.Link href="/dashboard">Dashboard </Nav.Link>
+              </Nav.Item> : null}
+            
+              {isAuthenticated===true ? <Nav.Item>
+                <Nav.Link href="/profile">Profile</Nav.Link>
+              </Nav.Item> : null}
+            {isAuthenticated===true ? <Nav.Item>
+              <Nav.Link id="welcome-user"> Welcome {name}. </Nav.Link>
+            </Nav.Item> : null}
+            <Nav.Item> {!isAuthenticated ? 
+              <Nav.Link href="/login"> Login </Nav.Link> : 
+              <Nav.Item> <Nav.Link onClick={()=>signOut()}> Sign out </Nav.Link></Nav.Item>} 
+            </Nav.Item>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
 
       {isAuthenticated===true ? <SessionLogout signOut={signOut}/> : null}
 
@@ -131,12 +128,7 @@ function App() {
         <Route exact path="/discover">
           <Discover/>
         </Route>
-        <Route exact path="/about">
-          <About/>
-        </Route>
-        <Route exact path="/donate">
-          <Donate/>
-        </Route>
+
         <Route>
           <h1>This page is not available.</h1>
         </Route>

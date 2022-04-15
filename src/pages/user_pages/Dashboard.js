@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listEvents } from '../../graphql/queries.js';
 import { formatDate } from './DateTimeFunctions.js';
-import "./events.css";
+import { Container, Row, Col } from 'react-bootstrap';
+import "../../styles/events.css";
 
 function Dashboard({email}) {
 
@@ -28,42 +29,52 @@ function Dashboard({email}) {
 	
 	return(
 		<div>
-			<h1 className="event-header" id="dash-header">Enrolled events</h1>
-			<div className="events-wrapper">
-			{events.length === 0 ? <h2 style={{textAlign:"center"}}> No events </h2> : null}
-			{
-				events.map((event, index) => (
-					<div className={index === 0 ? "first-event": "events"} key={index}>
-						<h4> Event Name: {event.event_name} </h4>
-						<h5> <em>Host: {event.organization_name}</em></h5>
-						<h5><em>Description: {event.description}</em></h5>
-						<ul className="events">
-							<li>Date: {event.date}</li>
-							<li>Time: {event.start_time} - {event.end_time}</li>
-							<li>Location: {event.location}</li>
-						</ul>
-					</div>
-				))
-			}
-			</div>
-			<h1 className="event-header" id="dash-header">Attended Events </h1>
-			<div className="events-wrapper">
-			{prevEvents.length === 0 ? <h2 style={{textAlign:"center"}}> No attended events </h2> : null}
-			{
-				prevEvents.map((event, index) => (
-					<div className={index === 0 ? "first-event": "events"} key={index}>
-						<h4> Event Name: {event.event_name} </h4>
-						<h5><em>Host: {event.organization_name}</em></h5>
-						<h5><em>Description: {event.description}</em></h5>
-						<ul className="events">
-							<li>Date: {event.date}</li>
-							<li>Time: {event.start_time} - {event.end_time}</li>
-							<li>Location: {event.location}</li>
-						</ul>
-					</div>
-				))
-			}
-			</div>
+			<Container className="main-container">
+				<Row className="mb-4">
+					<Row className="section-header"><h1>Enrolled events</h1></Row>
+					<Row className="events-wrapper">
+					{events.length === 0 ? <h2 style={{textAlign:"center"}}> No events </h2> : null}
+					{
+						events.map((event, index) => (
+							<Container className={index === 0 ? "first-event": "events"} key={index}>
+								<Row>
+									<h4> Event Name: {event.event_name} </h4>
+									<h5> <em>Host: {event.organization_name}</em></h5>
+									<h5><em>Description: {event.description}</em></h5>
+									<ul className="events">
+										<li>Date: {event.date}</li>
+										<li>Time: {event.start_time} - {event.end_time}</li>
+										<li>Location: {event.location}</li>
+									</ul>
+								</Row>
+							</Container>
+						))
+					}
+					</Row>
+				</Row>
+				<Row>
+					<Row className="section-header"><h1>Attended Events </h1></Row>
+					<Row className="events-wrapper">
+					{prevEvents.length === 0 ? <h2 style={{textAlign:"center"}}> No attended events </h2> : null}
+					{
+						prevEvents.map((event, index) => (
+							<Container className={index === 0 ? "first-event": "events"} key={index}>
+								<Row>
+									<h4> Event Name: {event.event_name} </h4>
+									<h5><em>Host: {event.organization_name}</em></h5>
+									<h5><em>Description: {event.description}</em></h5>
+									<ul className="events">
+										<li>Date: {event.date}</li>
+										<li>Time: {event.start_time} - {event.end_time}</li>
+										<li>Location: {event.location}</li>
+									</ul>
+								</Row>
+							</Container>
+						))
+					}
+					</Row>
+				</Row>
+			</Container>
 		</div>
 	);
 }

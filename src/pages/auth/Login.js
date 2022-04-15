@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import { Auth } from 'aws-amplify';
-import {Redirect} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import {checkEmptyFields} from '../EmptyFields.js';
-import "./login.css";
+import { Alert, Form, Button, Container} from 'react-bootstrap';
+import "../../styles/login.css";
 
 function Login({formState, setFormState, setAuth, setIsOrg}) {
 	
@@ -88,187 +89,172 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
   		return <Redirect to="/"/>;
   	}
 	return(
-		<div className="main_wrapper">
-			<div className ="login"> 
-				{error !== "none" ? <p style={{color: "red"}}> {error} </p> : null}
-				{formType === 'signIn' && (
-					<div>
-						<form onSubmit ={signIn}>
-							<h1 className="login_header">Compassion Connection</h1>
-							<ul className="login">
-								<li className="login">
-									<input onChange={(e)=>setFormState({...formState, username: e.target.value.toLowerCase()})}
-										placeholder="Email"
-										value={username}
-										type="text" 
-										className="login form_input" 
-										name="signin_email"
-										/> 
-								</li>
-								<li className="login">
-								<input onChange={(e)=>setFormState({...formState, password: e.target.value})}
-										placeholder="Password"
-										value={password}
-										type="password"
-										className="login form_input" 
-										/> 
-								</li>
-								<li className="login">
-									<button className="login" type="submit"> Login </button>
-								</li>
-								<li className="log_alt">
-									<button className="log_alt" type="button" onClick={()=>{setFormState({...formState, username: '', password: '', confNewPw:'', formType: 'signUp'}); setError("none");}}>Sign Up</button>
-								</li>
-								<li className="log_alt">
-									<button className="log_alt" type="button" onClick={()=>setFormState({...formState, formType:'forgotPassword'})}> Forgot Password </button>
-								</li>
-							</ul>
-						</form>
-					</div>
-				)}
-				{formType === 'signUp' && (
-					<div>
-						<form onSubmit ={signUp}>
-							<h1 className="login_header">Sign Up</h1>
-							<ul className="login">
-								<li className="login">
-									<input onChange={(e)=>setFormState({...formState, name: e.target.value})}
-										placeholder="Name"
-										value={name}
-										type="text" 
-										className="login form_input"
-										name="signup_name"
-										/>
-								</li>
-								<li className="login"> 
-									<input onChange={(e)=>setFormState({...formState, username: e.target.value.toLowerCase()})}
-										placeholder="Email"
-										value={username}
-										type="text"
-										className="login form_input"
-										name="signup_email" 
-										/>
-								</li> 
-								<li className="login">
-									<input onChange={(e)=>setFormState({...formState, password: e.target.value})}
-										placeholder="Password"
-										value={password}
-										type="password"
-										className="login form_input"
-										name="signup_pw"
-										/>
-								</li> 
-								<li className="login">
-									<input onChange={(e)=>setFormState({...formState, confNewPw: e.target.value})}
-										placeholder="Confirm Password"
-										value={confNewPw}
-										type="password"
-										className="login form_input"
-										name="signup_confpw" 
-										/>
-								</li>
-								<li className="login">
-									<button className="login" type="submit"> Confirm </button>
-								</li>
-								<li className="login">
-									<button className="log_alt" type="button" onClick={()=>{setFormState({...formState, password: '', confNewPw:'', username:'', name:'', formType: 'signIn'}); setError("none");}}>
-											I already have an account. </button>
-								</li>
-							</ul>
-						</form>
-					</div>
-				)}
-				{formType === 'confirmSignUp' && (
-					<div>
-						<h3 className="login_header">Please check your email for a confirmation link.</h3>
-						<ul className="login">
-							<li className="login">
-								<button className="login" type="button" onClick={()=>setFormState({...formState, confNewPw:'', username:'', name:'', password:'', authCode:'', formType: 'signIn'})}> 
-											Back To Login </button>
-							</li>
-						</ul>
-					</div>
-				)}
-				{formType === 'forgotPassword' && (
-					<div>
-						<form onSubmit={sendCode}>
-							<h3 className="login_header">Forgot Password</h3>
-							<ul className="login">
-								<li className="login">
-									<input onChange={(e)=>setFormState({...formState, username: e.target.value})}
-										placeholder="Email"
-										value={username}
-										type="text"
-										className="login form_input"
-										name="forgot_password_email" 
-										/>
-								</li>
-								<li className="login">
-									<button className="login" type="submit">Send Code</button>
-								</li>
-								<li className="login">
-									<button className="log_alt" type="button" onClick={()=>{setFormState({...formState, username:'', name:'', password:'', authCode:'', formType: 'signIn'});setError("none")}}> 
-												Cancel </button>
-								</li>
-							</ul>
-						</form>
-					</div>
-				)}
-				{formType === 'changePassword' && (
-					<div>
-						<form onSubmit={changePassword}>
-							<h3 className="login_header">Please check your email. Enter code and new password.</h3>
-							<ul className="login">
-								<li className="login">
-									<input onChange={(e)=>setFormState({...formState, authCode: e.target.value})}
-										placeholder="Enter Code"
-										value={authCode}
-										type="text"
-										className="login form_input"
-										name="forgot_authcode" 
-										/>
-								</li>
-								<li className="login">
-									<input onChange={(e)=>setFormState({...formState, newPw: e.target.value})}
-										placeholder="New Password"
-										value={newPw}
-										type="password"
-										className="login form_input"
-										name="forgot_newpw" 
-										/>
-								</li>
-								<li className="login">
-									<input onChange={(e)=>setFormState({...formState, confNewPw: e.target.value})}
-										placeholder="Confirm New Password"
-										value={confNewPw}
-										type="password"
-										className="login form_input"
-										name="forgot_confnewpw" 
-										/>
-								</li>
-								<li className="login">
-									<button className="login" type="submit">Change Password</button>
-								</li>
-								<li className="login">
-									<button className="log_alt" type="button" onClick={()=>{setFormState({...formState, username:'', name:'', newPw:'', confNewPw:'', authCode:'', formType: 'signIn'});setError("none")}}> 
-												Cancel </button>
-								</li>
-							</ul>
-						</form>
-					</div>
-				)}
-				{formType === 'pwChangeSuccess' && (
-					<div>
-						<h3 className="login_header">Password Successfully Changed.</h3>
-						<ul className="login">
-							<li className="login">
-								<button className="login" type="button" onClick={()=>setFormState({...formState, username:'', name:'', password:'', authCode:'', formType: 'signIn'})}> 
-											Back To Login </button>
-							</li>
-						</ul>
-					</div>
-				)}
+		<div className="main-wrapper">
+			<div className="sub-wrapper d-flex justify-content-center align-items-center">
+			{formType === 'signIn' && (
+			<Form className="text-center p-4 p-sm-5" onSubmit={signIn}>
+				<h1 className="mb-3">Sign In</h1>
+					<Form.Group className="mb-3">
+						<Form.Label> Email Address </Form.Label>
+						<Form.Control onChange={(e)=>setFormState({...formState, username: e.target.value.toLowerCase()})}
+							type="email" 
+							placeholder="example@email.com"
+							value={username}
+							className="form_input"
+							name="email"
+						/>
+						<Form.Text className="text-muted">
+					      <span id="disclaim"> We'll never share your email with anyone else. </span>
+					    </Form.Text>
+					</Form.Group>
+					<Form.Group className="mb-3">
+						<Form.Label> Password </Form.Label>
+						<Form.Control onChange={(e)=>setFormState({...formState, password: e.target.value})}
+							type="password"
+							value={password}
+							placeholder="Password"
+							className="form_input"
+						/>
+					</Form.Group>
+				<Button variant="dark" className="mb-3" type="submit">Login</Button>
+				<p>
+					<Link className="link-button" onClick={()=>{setFormState({...formState, username: '', password: '', confNewPw:'', formType: 'signUp'}); setError("none");}}>
+						Sign Up
+					</Link>
+					<Link className="link-button" onClick={()=>setFormState({...formState, formType:'forgotPassword'})}> 
+						Forgot Password 
+					</Link>
+				</p>
+			</Form>
+			)}
+			{formType === 'signUp' && (
+			<Form className="text-center p-4 p-sm-5" onSubmit={signUp}>
+				<h1 className="mb-3">Sign Up</h1>
+					<Form.Group className="mb-3">
+						<Form.Label>Name</Form.Label>
+						<Form.Control onChange={(e)=>setFormState({...formState, name: e.target.value})}
+							placeholder="Name"
+							value={name}
+							type="text" 
+							className="form_input"
+							name="signup_name"
+						/>
+					</Form.Group>
+					<Form.Group className="mb-3">
+						<Form.Label>Email</Form.Label> 
+						<Form.Control onChange={(e)=>setFormState({...formState, username: e.target.value.toLowerCase()})}
+							placeholder="Email"
+							value={username}
+							type="email"
+							className="form_input"
+							name="signup_email" 
+						/>
+					</Form.Group> 
+					<Form.Group className="mb-3">
+						<Form.Label>Password</Form.Label>
+						<Form.Control onChange={(e)=>setFormState({...formState, password: e.target.value})}
+							placeholder="Password"
+							value={password}
+							type="password"
+							className="form_input"
+							name="signup_pw"
+						/>
+					</Form.Group> 
+					<Form.Group className="mb-3">
+						<Form.Label>Confirm Password</Form.Label>
+						<Form.Control onChange={(e)=>setFormState({...formState, confNewPw: e.target.value})}
+							placeholder="Confirm Password"
+							value={confNewPw}
+							type="password"
+							className="form_input"
+							name="signup_confpw" 
+						/>
+					</Form.Group>
+				<Button variant="dark" className="mb-3" type="submit"> Confirm </Button>
+				<p> Already have an account? 
+					<Link onClick={()=>{setFormState({...formState, password: '', confNewPw:'', username:'', name:'', formType: 'signIn'}); setError("none");}}
+						className="link-button"> Login 
+					</Link>
+				</p>
+			</Form>
+			)}
+			{formType === 'confirmSignUp' && (
+				<Container>
+					<Alert variant="success">Please check your email for a confirmation link.</Alert>
+					<Button variant="dark" className="mb-3" className="login" type="button" onClick={()=>setFormState({...formState, confNewPw:'', username:'', name:'', password:'', authCode:'', formType: 'signIn'})}> 
+						Back To Login </Button>
+				</Container>
+			)}
+			{formType === 'forgotPassword' && (
+					<Form className="text-center p-4 p-sm-5" onSubmit={sendCode}>
+						<h2 className="mb-3">Forgot Password</h2>
+						<Form.Group className="mb-3">
+							<Form.Label>Email</Form.Label>
+							<Form.Control onChange={(e)=>setFormState({...formState, username: e.target.value})}
+								placeholder="Email"
+								value={username}
+								type="email"
+								className="form_input"
+								name="forgot_password_email" 
+								/>
+						</Form.Group>
+						<Button variant="dark" className="mb-3" type="submit">Send Code</Button>
+						<p>
+							<Link className="link-button" onClick={()=>{setFormState({...formState, username:'', name:'', password:'', authCode:'', formType: 'signIn'});setError("none")}}> 
+								Back to login </Link>
+						</p>
+					</Form>
+			)}
+			{formType === 'changePassword' && (
+					<Form className="text-center p-4 p-sm-5" onSubmit={changePassword}>
+						<h3>Please check your email <br/>for a code.</h3>
+							<Form.Group className="mb-3">
+								<Form.Label>Enter Code</Form.Label>
+								<Form.Control onChange={(e)=>setFormState({...formState, authCode: e.target.value})}
+									placeholder="Code"
+									value={authCode}
+									type="text"
+									className="form_input"
+									name="forgot_authcode" 
+								/>
+							</Form.Group>
+							<Form.Group className="mb-3">
+								<Form.Label>New Password</Form.Label>
+								<Form.Control onChange={(e)=>setFormState({...formState, newPw: e.target.value})}
+									placeholder="New Password"
+									value={newPw}
+									type="password"
+									className="form_input"
+									name="forgot_newpw" 
+								/>
+							</Form.Group>
+							<Form.Group className="mb-3">
+								<Form.Label>Confirm New Password</Form.Label>
+								<Form.Control onChange={(e)=>setFormState({...formState, confNewPw: e.target.value})}
+									placeholder="Confirm New Password"
+									value={confNewPw}
+									type="password"
+									className="form_input"
+									name="forgot_confnewpw" 
+								/>
+							</Form.Group>
+						<Button variant="dark" className="mb-3" type="submit">Change Password</Button>
+						<p>
+							<Link className="link-button" onClick={()=>{setFormState({...formState, username:'', name:'', newPw:'', confNewPw:'', authCode:'', formType: 'signIn'});setError("none")}}>
+								Cancel
+							</Link>
+						</p>
+					</Form>
+			)}
+			{formType === 'pwChangeSuccess' && (
+				<Container>
+					<Alert variant="success">Password Successfully Changed.</Alert>
+						<Button variant="dark" className="mb-3" type="button" onClick={()=>setFormState({...formState, username:'', name:'', password:'', authCode:'', formType: 'signIn'})}> 
+									Back To Login </Button>
+				</Container>
+			)}
 			</div>
+			{error !== "none" ? <Alert className="error" variant="danger"> {error} </Alert> : null}
 		</div>
 	);
 }

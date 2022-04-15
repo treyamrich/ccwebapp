@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
 import { API } from 'aws-amplify';
 import { listEvents } from '../../graphql/queries.js';
 import { updateEvent } from '../../graphql/mutations.js';
 import { formatDate } from './DateTimeFunctions.js';
 import { email_register_user } from './AWS_SES_Email_Function.js';
-import "./events.css";
+import { Alert, Button, Container, Row } from 'react-bootstrap';
+import '../../styles/Calendar.css';
+import "../../styles/events.css";
 
 function Schedule({sesObj, email, isOrg}) {
 	const [selDate, chDate] = useState(new Date());
@@ -59,38 +60,43 @@ function Schedule({sesObj, email, isOrg}) {
 	}
 	return(
 		<div>
-			<div className="calendar-div">
-				<h1 style={{color:"#52B2BF"}}>Select a date </h1>
-				<Calendar
-					className={["react-calendar", "myCal"]}
-	        		onChange={chDate}
-	       		 	value={selDate}
-	       		 	minDate={new Date()}
-	     	 	/>
-	     	</div>
-	     	<h2 className="section-header" style={{textDecoration:"underline"}}>Available slots:</h2>
-	     	<div className="events-wrapper">
-	     		{events.length === 0 ? <h2 style={{textAlign:"center"}}> No events </h2> : null}
-	     		{
-	     			events.map((event, index) => (
-						<div className={index === 0 ? "first-event": "events"} key={index}>
-							<h4> Event Name: {event.event_name} </h4>
-							<h5><em>Host: {event.organization_name}</em></h5>
-							<h5><em>Description: {event.description}</em></h5>
-							<ul className="events">
-								<li>Date: {event.date}</li>
-								<li>Time: {event.start_time} - {event.end_time}</li>
-								<li>Location: {event.location}</li>
-							</ul>
-							<div id={"register-button-" + index}>
-								{!isOrg ? registerBitMap[index] === 0 ? 
-									<button id="register-button" onClick={()=>register(event, index)}> Register </button> : 
-									<p style={{color: "green", marginLeft:"5px"}}> Registered. </p> : null}
-							</div>
-						</div>
-					))
-	     		}
-	     	</div>
+			<Container className="main-container">
+				<Row className="header-container mb-3"><h1>Select a date </h1></Row>
+				<Row className="calendar-div mb-5">
+					<Calendar
+						className={["react-calendar", "myCal"]}
+		        		onChange={chDate}
+		       		 	value={selDate}
+		       		 	minDate={new Date()}
+		     	 	/>
+		     	</Row>
+		     	
+		     	<Row><h2 className="section-header" style={{textDecoration:"underline"}}>Available slots:</h2></Row>
+		     	<Row className="events-wrapper">
+		     		{events.length === 0 ? <h2 style={{padding: "10px", textAlign:"center"}}> No events </h2> : null}
+		     		{
+		     			events.map((event, index) => (
+							<Container className={index === 0 ? "first-event": "events"} key={index}>
+								<Row>
+									<h4> Event Name: {event.event_name} </h4>
+									<h5><em>Host: {event.organization_name}</em></h5>
+									<h5><em>Description: {event.description}</em></h5>
+									<ul className="events">
+										<li>Date: {event.date}</li>
+										<li>Time: {event.start_time} - {event.end_time}</li>
+										<li>Location: {event.location}</li>
+									</ul>
+								</Row>
+								<Row id={"register-button-" + index}>
+									{!isOrg ? registerBitMap[index] === 0 ? 
+										<Button variant="dark" className="mb-3" onClick={()=>register(event, index)}> Register </Button> : 
+										<Alert variant="success"> Registered. </Alert> : null}
+								</Row>
+							</Container>
+						))
+		     		}
+		     	</Row>
+	     	</Container>
 		</div>
 	);
 }

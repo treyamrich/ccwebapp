@@ -1,0 +1,15 @@
+.navbar {
+  padding: 20px;
+}
+
+img.logo {
+  width: 30px;
+}
+
+#welcome-user {
+  color: #7D7472;
+}
+
+#welcome-user:hover {
+  cursor: default;
+}

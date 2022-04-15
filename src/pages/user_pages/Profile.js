@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { Auth } from 'aws-amplify';
 import {checkEmptyFields} from '../EmptyFields.js';
+import { Alert, Form, Button} from 'react-bootstrap';
 
 const initialResetState = {
 	oldPass: "",
@@ -14,8 +15,9 @@ function Profile({email, name}) {
 	const [error, setError] = useState("none");
 	const [success, setSuccess] = useState(false);
 
-	async function changePassword() {
-		if(checkEmptyFields("resetPassword")) return; //If fields are empty return
+	async function changePassword(e) {
+		e.preventDefault();
+		if(checkEmptyFields("form_input")) return; //If fields are empty return
 		if(resetState.newPass !== resetState.confNewPass) {
 			setError("New passwords don't match.");
 			return;
@@ -42,54 +44,60 @@ function Profile({email, name}) {
 	const {oldPass, newPass, confNewPass} = resetState;
 	return(
 		<div className="main_wrapper">
-			<div className="login">
-				{error !== "none" ? <p style={{color: "red"}}> {error} </p> : null}
-				{success === true ? <p style={{color: "green"}}> Password Changed. </p> : null}
+			<div className="sub-wrapper d-flex justify-content-center align-items-center">
 				{!changePw && (
-					<div>
-						<h1 className="login_header"> User Profile</h1>
-						<ul>
-							<li className="login">Name: {name}</li>
-							<li className="login">Email: {email}</li>
-							<li className="log_alt"><button className="log_alt" onClick={()=>{setChangePw(true); setSuccess(false);}}>Change Password</button></li>
-						</ul>
-					</div>
+					<Form className="text-center p-4 p-sm-5">
+						<h1 className="mb-4">User Profile</h1>
+						<Form.Group className="mb-4">
+							<ul>
+								<li className="mb-3">Name: {name}</li>
+								<li className="mb-3">Email: {email}</li>
+							</ul>
+						</Form.Group>
+						<Form.Group className="mb-2">
+							<Button variant="dark" onClick={()=>{setChangePw(true); setSuccess(false);}}>Change Password</Button>
+						</Form.Group>
+					</Form>
 				)}
 				{changePw && (
-					<ul>
-						<li className="login"> Old Password:
-							<input onChange={(e)=>setResetState({...resetState, oldPass: e.target.value})}
+					<Form className="text-center p-4 p-sm-5" onSubmit={changePassword}>
+						<h1 className="mb-4">Password Reset</h1>
+						<Form.Group className="mb-3"> 
+							<Form.Label>Old Password:</Form.Label>
+							<Form.Control onChange={(e)=>setResetState({...resetState, oldPass: e.target.value})}
 								value={oldPass}
 								type="password"
-								className="login" 
-								name="resetPassword"
+								placeholder="Old Password"
+								className="form_input"
 								/> 
-						</li>
-						<li className="login"> New Password:
-							<input onChange={(e)=>setResetState({...resetState, newPass: e.target.value})}
+						</Form.Group>
+						<Form.Group className="mb-3"> 
+							<Form.Label>New Password:</Form.Label>
+							<Form.Control onChange={(e)=>setResetState({...resetState, newPass: e.target.value})}
 								value={newPass}
 								type="password"
-								className="login"
-								name="resetPassword" 
+								placeholder="New Password"
+								className="form_input" 
 								/> 
-						</li>
-						<li className="login"> Confirm New Password:
-							<input onChange={(e)=>setResetState({...resetState, confNewPass: e.target.value})}
+						</Form.Group>
+						<Form.Group className="mb-3"> 
+							<Form.Label>Confirm New Password:</Form.Label>
+							<Form.Control onChange={(e)=>setResetState({...resetState, confNewPass: e.target.value})}
 								value={confNewPass}
 								type="password"
-								className="login"
-								name="resetPassword" 
+								placeholder="Confirm New Password"
+								className="form_input"
 								/> 
-						</li>
-						<li className="login">
-							<button className="login" onClick={changePassword}> Confirm </button> 
-						</li>
-						<li className="login">
-							<button className="log_alt" onClick={()=>setChangePw(false)}> Cancel </button>
-						</li>
-					</ul>
+						</Form.Group>
+						<Button variant="dark" className="mb-3" type="submit"> Confirm </Button>
+						<p>
+							<a className="link-button" onClick={()=>setChangePw(false)}> Cancel </a>
+						</p>
+					</Form>
 				)}
 			</div>
+			{error !== "none" ? <Alert className="error" variant="danger"> {error} </Alert> : null}
+			{success === true ? <Alert className="error" variant="success"> Password Changed. </Alert> : null}
 		</div>
 	);
 }

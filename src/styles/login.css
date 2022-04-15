@@ -1,0 +1,40 @@
+.main-wrapper {
+  min-height: 100vh;
+  position: relative;
+}
+.sub-wrapper {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: #EFEFEF;
+}
+.error {
+  width: 100%;
+  position: absolute;
+  top: 60px;
+}
+
+#disclaim {
+  color: #292b2c;
+}
+
+form {
+  border: none;
+  border-radius: 3px;
+  color: #292b2c;
+  background-color: #86A367;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+.link-button {
+  text-decoration: underline;
+  color: #292b2c;
+}
+.link-button:hover {
+  cursor: pointer;
+  color: white;
+}
+
+a {
+  margin-right: 10px;
+  margin-left: 15px;
+}

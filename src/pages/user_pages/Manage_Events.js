@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
 import TimePicker from 'react-time-picker';
 import 'react-time-picker/dist/TimePicker.css';
 import { formatDate, subtractTime } from './DateTimeFunctions.js';
@@ -9,7 +8,9 @@ import { eventByCreated } from '../../graphql/queries.js';
 import { createEvent, deleteEvent } from '../../graphql/mutations.js';
 import { checkEmptyFields } from '../EmptyFields.js';
 import { email_removed_event } from './AWS_SES_Email_Function.js';
-import "./events.css";
+import { Form, Alert, Button, Container, Row } from 'react-bootstrap';
+import '../../styles/Calendar.css';
+import "../../styles/events.css";
 
 const initialEventState = {
 	event_name: '',
@@ -30,7 +31,8 @@ function ManageEvents({sesObj, orgName, isOrg}) {
 
 	const {event_name, desc, location} = event;
 
-	async function makeEvent() {
+	async function makeEvent(e) {
+		e.preventDefault();
 		var error = false; //Local flag variable
 		//Check if a valid time is chosen
 		var timeDiff = subtractTime(selStartTime, selEndTime);
@@ -124,68 +126,80 @@ function ManageEvents({sesObj, orgName, isOrg}) {
 	}
 	return(
 		<div>
-			<div className="calendar-div">
-				<h1 style={{color:"#52B2BF"}}>Create Event </h1>
-				<h2>Choose a date </h2>
-				<Calendar
-					className={["react-calendar", "myCal"]}
-		        	onChange={chDate}
-		       		value={selDate}
-		       		minDate={new Date()}
-		     	 />
-		     	 <h4> Start time </h4>
-		     	 <TimePicker placeholder ="Start time"
-			        onChange={chStartTime}
-			        value={selStartTime}
-			      />
-			      <h4> End time </h4>
-			      <TimePicker
-			        onChange={chEndTime}
-			        value={selEndTime}/>
-		     	<ul className="manage-event">
-		     	 	<li className="text-entry"> Event Name:
-		     	 		<input onChange={(e)=>setEvent({...event, event_name: e.target.value})}
-							value={event.event_name}
-							type="text"
-							name="createInput"
-							className="text-entry"/> 
-		     	 	</li>
-		     	 	<li className="text-entry"> Description:
-		     	 		<input onChange={(e)=>setEvent({...event, desc: e.target.value})}
-							value={event.desc}
-							type="text" 
-							name="createInput"
-							className="text-entry"/> 
-		     	 	</li>
-		     	 	<li className="text-entry"> Location:
-		     	 		<input onChange={(e)=>setEvent({...event, location: e.target.value})}
-							value={event.location}
-							type="text" 
-							name="createInput"
-							className="text-entry"/> 
-		     	 	</li>
-		     	</ul>
-		     	{makeEventErr ? <p style={{color: 'red'}}> Please select a valid time interval</p> : null}
-		     	<button className="make-event" onClick={makeEvent}> Create Event</button>
-		    </div>
-
+		<Container className="main-container">
+			<Container className="mb-5">
+				<Row className="header-container mb-3">
+					<h1>Create Event </h1>
+				</Row>
+				<Row className="calendar-div">
+					<Form className="text-center p-4 p-sm-5" onSubmit={makeEvent}>
+						<Form.Group className="mb-3">
+							<Form.Label className="mb-3"><h2>Choose a date </h2></Form.Label>
+							<Calendar
+								className={["react-calendar", "myCal"]}
+					        	onChange={chDate}
+					       		value={selDate}
+					       		minDate={new Date()}
+					     	 />
+					    </Form.Group>
+				   		<Form.Group className="mb-3">
+				   			<Form.Label> Start time </Form.Label> <br/>
+					     	<TimePicker placeholder ="Start time"
+						        onChange={chStartTime}
+						        value={selStartTime}/>
+					    </Form.Group>
+						<Form.Group className="mb-3">
+							<Form.Label> End time </Form.Label> <br/>
+					      	<TimePicker
+					        onChange={chEndTime}
+					        value={selEndTime}/>
+				    	</Form.Group>
+				    	{makeEventErr ? <Alert variant="danger"> Please select a valid time interval</Alert> : null}
+			     	 	<Form.Group className="mb-3"> 
+			     	 		<Form.Label> Event Name: </Form.Label>
+			     	 		<Form.Control onChange={(e)=>setEvent({...event, event_name: e.target.value})}
+								value={event.event_name}
+								type="text"
+								name="createInput"
+								className="createInput"/> 
+			     	 	</Form.Group>
+			     	 	<Form.Group className="mb-3"> 
+			     	 		<Form.Label> Description: </Form.Label>
+			     	 		<Form.Control onChange={(e)=>setEvent({...event, desc: e.target.value})}
+								value={event.desc}
+								type="text" 
+								name="createInput"
+								className="createInput"/> 
+			     	 	</Form.Group>
+			     	 	<Form.Group className="mb-3"> 
+			     	 		<Form.Label> Location: </Form.Label>
+			     	 		<Form.Control onChange={(e)=>setEvent({...event, location: e.target.value})}
+								value={event.location}
+								type="text" 
+								name="createInput"
+								className="createInput"/> 
+			     	 	</Form.Group>
+			     		<Button variant="dark" type="submit"> Create Event</Button>
+			    	</Form>
+			    </Row>
+		    </Container>
 
 		    <h1 className="section-header">Manage Events</h1>
 		    { viewState === "current" ?  
 		    	<button onClick={()=>setViewState("previous")} className="manage-view"> View Previous Events </button> : 
 		    	<button onClick={()=>setViewState("current")} className="manage-view"> View Current Events </button>
 		    }
-		    <div className="events-wrapper">
+		    <Container className="events-wrapper">
 	     	{ viewState === "current" && (
-	     		<div>
-		     		<h2 className="event-header" id="manage-header">Current Events</h2>
-		     		{events.length === 0 ? <h2 style={{textAlign:"center"}}> No events </h2> : null}
+	     		<Container>
+		     		<h2 id="manage-header">Current Events</h2>
+		     		{events.length === 0 ? <h2 style={{padding: "10px", textAlign:"center"}}> No events </h2> : null}
 		     		{
 		     			events.map((eventObj, index) => (
-							<div className={index === 0 ? "first-event": "events"} key={index}>
+							<Row className={index === 0 ? "first-event": "events"} key={index}>
 								<h4> Event Name: {eventObj.event_name} </h4>
 								<h5><em>Description: {eventObj.description}</em></h5>
-								<ul className="events">
+								<ul className="events mb-3">
 									<li>Date: {eventObj.date}</li>
 									<li>Time: {eventObj.start_time} - {eventObj.end_time}</li>
 									<li>Location: {eventObj.location}</li>
@@ -198,22 +212,22 @@ function ManageEvents({sesObj, orgName, isOrg}) {
 										}
 									})} </li>
 								</ul>
-								<button id="remove-button" onClick={()=>removeEvent(eventObj, index)}> Remove </button>
-							</div>
+								<Button className="mb-3" variant="danger" onClick={()=>removeEvent(eventObj, index)}> Remove </Button>
+							</Row>
 						))
 		     		}
-	     		</div>
+	     		</Container>
 	     	)}
 	     	{ viewState === "previous" && (
-	     		<div>
+	     		<Container>
 	     			<h2 className="event-header" id="manage-header">Previous Events</h2>
-		     		{prevEvents.length === 0 ? <h2 style={{textAlign:"center"}}> No previous events </h2> : null}
+		     		{prevEvents.length === 0 ? <h2 style={{padding: "10px", textAlign:"center"}}> No previous events </h2> : null}
 		     		{
 		     			prevEvents.map((eventObj, index) => (
-							<div className={index === 0 ? "first-event": "events"} key={index}>
+							<Row className={index === 0 ? "first-event": "events"} key={index}>
 								<h4> Event Name: {eventObj.event_name} </h4>
 								<h5><em>Description: {eventObj.description}</em></h5>
-								<ul className="events">
+								<ul className="events mb-3">
 									<li>Date: {eventObj.date}</li>
 									<li>Time: {eventObj.start_time} - {eventObj.end_time}</li>
 									<li>Location: {eventObj.location}</li>
@@ -226,12 +240,13 @@ function ManageEvents({sesObj, orgName, isOrg}) {
 										}
 									})} </li>
 								</ul>
-							</div>
+							</Row>
 						))
 		     		}
-	     		</div>
+	     		</Container>
 	     	)}
-		    </div>
+		    </Container>
+		</Container>
 		</div>
 	);
 }
