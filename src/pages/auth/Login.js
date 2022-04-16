@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Auth } from 'aws-amplify';
 import {Link, Redirect} from 'react-router-dom';
-import {checkEmptyFields} from '../EmptyFields.js';
+import {checkEmptyFields} from '../../utility/EmptyFields.js';
 import { Alert, Form, Button, Container} from 'react-bootstrap';
 import "../../styles/login.css";
 

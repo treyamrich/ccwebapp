@@ -52,9 +52,15 @@ function Landing() {
 			<Container className="container-spacing">
 				<Row>
 					<Col className="col" md={8}>
-				        <h3 className="landing">Volunteer Today</h3>
+				        <h3>Volunteer Today</h3>
 				        <p> From beach cleanups to food drives, the opportunities are limitless!</p>
-				        <Link to="/schedule"> <Button className ="schedule">Find a date/time </Button></Link>
+				        <Link to="/schedule"> <Button className ="schedule mb-5">Find a Date/Time </Button></Link>
+
+				        <h3>Discover</h3>
+        				<p> 
+        					Want to learn more about the organizations at Compassion Connection? 
+        				</p>
+				        <Link to="/discover"> <Button className ="schedule">Discover Organizations</Button></Link>
 			        </Col>
 			        <Col md={4}>
         				<h3> Where Donations Go </h3>

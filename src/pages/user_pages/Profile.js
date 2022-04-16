@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Auth } from 'aws-amplify';
-import {checkEmptyFields} from '../EmptyFields.js';
+import {checkEmptyFields} from '../../utility/EmptyFields.js';
 import { Alert, Form, Button} from 'react-bootstrap';
 
 const initialResetState = {

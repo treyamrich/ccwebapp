@@ -3,8 +3,8 @@ import Calendar from 'react-calendar';
 import { API } from 'aws-amplify';
 import { listEvents } from '../../graphql/queries.js';
 import { updateEvent } from '../../graphql/mutations.js';
-import { formatDate } from './DateTimeFunctions.js';
-import { email_register_user } from './AWS_SES_Email_Function.js';
+import { formatDate } from '../../utility/DateTimeFunctions.js';
+import { email_register_user } from '../../utility/AWS_SES_Email_Function.js';
 import { Alert, Button, Container, Row } from 'react-bootstrap';
 import '../../styles/Calendar.css';
 import "../../styles/events.css";
@@ -14,12 +14,11 @@ function Schedule({sesObj, email, isOrg}) {
 	const [events, setEvents] = useState([]);
 	const [registerBitMap, setRegisterBitMap] = useState([]);
 
-	//Fetch events
 	async function fetchEvents() {
 		try {
 			var date = formatDate(selDate);
 			const apiData = await API.graphql({query: listEvents, variables:{ filter: {date: {eq: date}}}});
-			//Traverse and mark all registered events for the current user
+			//Mark all registered events for the current user
 			var arr = apiData.data.listEvents.items;
 			var bitMap = [];
 			for(var i = 0; i < arr.length; i++) {

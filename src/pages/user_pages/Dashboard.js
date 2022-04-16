@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listEvents } from '../../graphql/queries.js';
-import { formatDate } from './DateTimeFunctions.js';
+import { formatDate } from '../../utility/DateTimeFunctions.js';
 import { Container, Row, Col } from 'react-bootstrap';
 import "../../styles/events.css";
 
