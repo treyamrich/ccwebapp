@@ -15,3 +15,11 @@ type Event @model @auth(rules: [{ allow: private}]) {
   start_time: AWSTime!
   end_time: AWSTime!
 }
+
+type Organization @model @auth(rules: [{ allow: private}]) {
+  id: ID!
+  category: String!
+  name: String!
+  description: String
+  image: String
+}

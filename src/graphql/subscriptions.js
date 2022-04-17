@@ -58,3 +58,42 @@ export const onDeleteEvent = /* GraphQL */ `
     }
   }
 `;
+export const onCreateOrganization = /* GraphQL */ `
+  subscription OnCreateOrganization {
+    onCreateOrganization {
+      id
+      category
+      name
+      description
+      image
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateOrganization = /* GraphQL */ `
+  subscription OnUpdateOrganization {
+    onUpdateOrganization {
+      id
+      category
+      name
+      description
+      image
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteOrganization = /* GraphQL */ `
+  subscription OnDeleteOrganization {
+    onDeleteOrganization {
+      id
+      category
+      name
+      description
+      image
+      createdAt
+      updatedAt
+    }
+  }
+`;

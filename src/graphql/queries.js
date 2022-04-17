@@ -46,6 +46,39 @@ export const listEvents = /* GraphQL */ `
     }
   }
 `;
+export const getOrganization = /* GraphQL */ `
+  query GetOrganization($id: ID!) {
+    getOrganization(id: $id) {
+      id
+      category
+      name
+      description
+      image
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listOrganizations = /* GraphQL */ `
+  query ListOrganizations(
+    $filter: ModelOrganizationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listOrganizations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        category
+        name
+        description
+        image
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const eventByCreated = /* GraphQL */ `
   query EventByCreated(
     $type: String!
