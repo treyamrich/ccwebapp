@@ -2,7 +2,10 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {Helmet} from "react-helmet";
 import banner from "../graphics/cc_banner.png";
-import { Button, Container, Row, Col } from 'react-bootstrap';
+import oahu from "../graphics/oahu.jpg";
+import garbage from "../graphics/garbage1.jpg";
+import hand_connect from "../graphics/hand_connection.jpg";
+import { Image, Carousel, Button, Container, Row, Col } from 'react-bootstrap';
 import "../styles/landing.css";
 
 function Landing() {
@@ -14,7 +17,17 @@ function Landing() {
               	<meta name="keywords" content="Volunteer, Hawaii, Compassion, Connection, Oahu" />
         	</Helmet>
 
-        	<img className="banner" src={banner} alt="Banner"/>
+        	<Carousel style={{marginTop:"56px"}} fade>
+        		<Carousel.Item>
+        			<img className="d-block w-100" src={banner} alt="Banner"/>
+			  </Carousel.Item>
+			  <Carousel.Item id="oahu" className="slideshow-container">
+        			<img className="d-block w-100" src={oahu} alt="Banner2"/>
+			  </Carousel.Item>
+			  <Carousel.Item id="garbage" className="slideshow-container">
+        			<img className="d-block w-100" src={garbage} alt="Banner2"/>
+			  </Carousel.Item>
+        	</Carousel>
         	<Container style={{paddingBottom:"50px", borderBottom:"1px solid #EFEFEF"}} className="container-spacing">
         		<Row>
         			<Col md={4}>
@@ -53,24 +66,22 @@ function Landing() {
 				<Row>
 					<Col className="col" md={8}>
 				        <h3>Volunteer Today</h3>
-				        <p> From beach cleanups to food drives, the opportunities are limitless!</p>
+				        <p> I don't know about you guys but our beaches here are getting dirty!
+				        	Are you tired our island's beautiful beaches from being ruined? 
+				        	From beach cleanups to food drives, the opportunities on this platform
+				        	are limitless. Find volunteer opportunities and events that
+				        	are currently being hosted by your local organizations.</p>
 				        <Link to="/schedule"> <Button className ="schedule mb-5">Find a Date/Time </Button></Link>
 
 				        <h3>Discover</h3>
         				<p> 
-        					Want to learn more about the organizations at Compassion Connection? 
+        					Find more information on your local organizations today!
         				</p>
 				        <Link to="/discover"> <Button className ="schedule">Discover Organizations</Button></Link>
 			        </Col>
 			        <Col md={4}>
-        				<h3> Where Donations Go </h3>
-        				<p className="info">
-							Do you want to know exactly where your money is headed? 
-							All of the proceeds donating through this platform will go to the following things: website improvements, 
-							registration portal enhancements, application design, facilitation of meetings with different organizations 
-							and investing in growing Compassion Connection to an even larger scale. We are so grateful for anything you were able 
-							to donate today and we can assure you that this truly is going to an amazing cause for long term change!
-						</p>
+			        	<Image src={hand_connect} style={{width: 300}} rounded/>
+        				
         			</Col>
         		</Row>
 			</Container>

@@ -1,5 +1,4 @@
 import './styles/App.css';
-import logo from "./graphics/cc_logo_new.png";
 import { Route, Switch } from 'react-router-dom';
 import { Auth } from 'aws-amplify';
 import React, { useState, useEffect } from 'react';
