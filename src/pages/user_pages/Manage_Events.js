@@ -62,7 +62,9 @@ function ManageEvents({sesObj, orgName, isOrg}) {
 				end_time: selEndTime,
 				num_volunteers: 0,
 				volunteers: [],
-				type: 'event'}}});
+				type: 'event'
+			}}});
+
 			//Add event to local array
 			var newEvents = [...events];
 			newEvents.splice(0, 0, apiData.data.createEvent); //Insert at the first index
@@ -93,7 +95,7 @@ function ManageEvents({sesObj, orgName, isOrg}) {
 				//Split the volunteers list because the max amount of recipients per SendEmailCommand for AWS SES is 50
 				var volunteerBatch; //Temp array for each batch of volunteers
 				for(let i = 0; i < volunteers.length; i+=50) {
-					if(i/50 == volunteers.length - 1) { //If last iteration, batch = remainder so slice from i to length of array
+					if(i/50 === volunteers.length - 1) { //If last iteration, batch = remainder so slice from i to length of array
 						volunteerBatch = volunteers.slice(i, volunteers.length);
 					} else { //Else, slice from i to i+50
 						volunteerBatch = volunteers.slice(i, i+50);
@@ -105,7 +107,6 @@ function ManageEvents({sesObj, orgName, isOrg}) {
 			alert("Error removing event.");
 		}
 	}
-	//Fetch events
 	async function fetchEvents() {
 		try {
 		var today = formatDate(new Date());
@@ -131,7 +132,7 @@ function ManageEvents({sesObj, orgName, isOrg}) {
 				<Row className="header-container mb-3">
 					<h1>Create Event </h1>
 				</Row>
-				<Row className="calendar-div">
+				<Row xxl={2} xl={2} lg={2} md={2} sm={2} xs={2} className="justify-content-center">
 					<Form className="text-center p-4 p-sm-5" onSubmit={makeEvent}>
 						<Form.Group className="mb-3">
 							<Form.Label className="mb-3"><h2>Choose a date </h2></Form.Label>

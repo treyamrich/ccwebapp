@@ -80,7 +80,7 @@ function Schedule({sesObj, email, isOrg}) {
 									<h4> Event Name: {event.event_name} </h4>
 									<h5><em>Host: {event.organization_name}</em></h5>
 									<h5><em>Description: {event.description}</em></h5>
-									<ul className="events">
+									<ul className="events mb-3">
 										<li>Date: {event.date}</li>
 										<li>Time: {event.start_time} - {event.end_time}</li>
 										<li>Location: {event.location}</li>

@@ -2,42 +2,60 @@ import React, { useState, useEffect } from 'react';
 import {Helmet} from "react-helmet";
 import { API, Storage } from 'aws-amplify';
 import { listOrganizations } from '../../graphql/queries.js';
-import { updateEvent } from '../../graphql/mutations.js';
-import { Form, Container, Row, Col } from 'react-bootstrap';
+import { deleteOrganization } from '../../graphql/mutations.js';
+import { Button, Form, Container, Row, Col } from 'react-bootstrap';
+import CreateOrganizations from './Create_Organizations.js';
 
 import "../../styles/events.css";
 
-const categories = {
-	"beach": {
-		label: "Beach",
-		list: []
+const cats = [
+	{
+		name: "beach",
+		label: "Beach Clean Up"
 	},
-	"food": {
-		label: "Food Drive",
-		list: []
+	{
+		name: "food",
+		label: "Food Drive"
 	}
-};
+];
 
-function Discover() {
-	const [orgs, setOrgs] = useState(categories);
-	const [allOrgLen, setOrgLen] = useState(0)
-	const [category, setCategory] = useState("all")
+function Discover({isAdmin}) {
 
-	async function fetchOrgs() {
+	const [orgs, setOrgs] = useState([]);
+	const [selCat, setSelCategory] = useState("all");
+
+	async function removeOrg(org, index) {
+		const {id} = org;
 		try {
-			await Promise.all(Object.keys(orgs).map(async key => {
-				const apiData = await API.graphql({query: listOrganizations, variables:{ filter: {category: {eq: key}}}});
-				const orgList = apiData.data.listOrganizations.items;
-				await Promise.all(orgList.map(async org => {
-					if(org.image) {
-						const image = await Storage.get(org.image);
-						org.image = image;
-					}
-					return org;
-				}))
-				orgs[key].list = orgList;
-				setOrgLen(()=> allOrgLen + orgs[key].list.length);
-			}));
+			//Remove org from database
+			await API.graphql({query: deleteOrganization, variables: { input: {
+				id: id
+			}}});
+			//Remove org from local array
+			var newOrgs = [...orgs]; //Copy array
+			if (index >= 0) {
+			    newOrgs.splice(index, 1);
+			    setOrgs(newOrgs);
+			}
+		} catch(err){
+			alert("Error removing organization.");
+		}
+	}
+	async function fetchOrgs(category) {
+		try {
+			const apiData = category === "all" ? 
+				await API.graphql({query: listOrganizations}) :
+				await API.graphql({query: listOrganizations, variables:{ filter: {category: {eq: category}}}});
+
+			const orgList = apiData.data.listOrganizations.items;
+			await Promise.all(orgList.map(async org => {
+				if(org.image) {
+					const image = await Storage.get(org.image);
+					org.image = image;
+				}
+				return org;
+			}))
+			setOrgs(orgList);
 		} catch(err){
 			console.log(err);
 			alert("Error fetching organizations.");
@@ -55,55 +73,39 @@ function Discover() {
               <meta name="keywords" content="Discover, Compassion, Connection, Oahu, Hawaii" />
         	</Helmet>
 			<Container className="main-container">
-				<Row className="header-container mb-3"><h1>Discover</h1></Row>
-				<Row className="mb-3">
+				{isAdmin && (
+					<CreateOrganizations orgs={orgs} setOrgs={setOrgs} cats={cats}/>
+				)}
+				<Row className="header-container"><h1>Discover</h1></Row>
+				<Row className="mb-3" xxl={2} xl={2} lg={2} md={2} sm={2} xs={2}>
 					<Form.Group>
 						<Form.Label>Select Category</Form.Label>
-						<Form.Select onChange={(e)=>setCategory(e.target.value)}>
+						<Form.Select onChange={(e)=>fetchOrgs(e.target.value)}>
 							<option value="all">Default-All</option>
 							{
-								Object.keys(orgs).map((key) => (
-									<option value={key}> {orgs[key].label}</option>
+								cats.map((cat, index) => (
+									<option value={cat.name} key={index}> {cat.label}</option>
 								))
 							}
 						</Form.Select>
 					</Form.Group>
-					<input type="file" onChange={()=>console.log("hello")}/>
 				</Row>
 		     	<Row className="events-wrapper">
-		     		{category === "all" && allOrgLen === 0  ? <h2 style={{padding: "10px", textAlign:"center"}}> No organizations </h2> : null}
-		     		{category === "all" && (
-		     			<div>
-		     				{
-				     			Object.keys(orgs).map((key) => {
-				     				orgs[key].list.map((org, index) => (
-				     					<Container className={index === 0 ? "first-event": "events"} key={index}>
-											<Row>
-												<h4> Organization: {org.name}</h4>
-												<h5><em>Description: {org.description}</em></h5>
-												{org.image && <img src={org.image} style={{width: 400}} />}
-											</Row>
-										</Container>
-								))})
-		     				}
-		     			</div>
-		     		)}
-		     		{category !== "all" && orgs[category].list.length === 0 ? <h2 style={{padding: "10px", textAlign:"center"}}> No organizations </h2> : null}
-		     		{category !== "all" && (
-		     			<div>
-			     			{
-			     				orgs[category].list.map((org, index) => (
-			     					<Container className={index === 0 ? "first-event": "events"} key={index}>
-										<Row>
-											<h4> Organization: {org.name}</h4>
-											<h5><em>Description: {org.description}</em></h5>
-											<h5>Image: {org.image}</h5>
-										</Row>
-									</Container>
-		     					))
-			     			}
-	     				</div>
-		     		)}
+		     		{orgs.length === 0 ? <h2 style={{padding: "10px", textAlign:"center"}}> No organizations </h2> : null}
+	     			<Container>
+	     			{
+	     				orgs.map((org, index) => (
+	     					<Row className={index === 0 ? "first-event": "events"} key={index}>
+								<h4 className="mb-3"> Organization: {org.name}</h4>
+								{org.image && <img className="mb-3" alt={org.name + "-logo"} src={org.image} style={{width: 400}} />}
+								<h5 className="mb-3"><em>Description: {org.description}</em></h5>
+								{isAdmin && (
+									<Button className="mb-3" variant="danger" onClick={()=>removeOrg(org, index)}> Remove </Button>
+								)}
+							</Row>
+     					))
+	     			}
+     				</Container>
 		     	</Row>
 	     	</Container>
 		</div>

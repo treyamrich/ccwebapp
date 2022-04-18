@@ -51,7 +51,7 @@
     }
   },
   "storage": {
-    "imagestorage": {
+    "ccimagestorage": {
       "service": "S3",
       "providerPlugin": "awscloudformation",
       "dependsOn": []

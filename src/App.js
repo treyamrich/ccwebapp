@@ -29,7 +29,7 @@ const initialFormState = {
   authCode: '',
   formType:'signIn',
   idToken:'',
-  sesObj: {} 
+  sesObj: {}
 };
 
 function App() {
@@ -37,6 +37,7 @@ function App() {
   const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [isAuthenticated, userHasAuthenticated] = useState(false);
   const [isOrg, setIsOrg] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   async function signOut() {
     try {
@@ -53,7 +54,19 @@ function App() {
       const groups = user.signInUserSession.accessToken.payload["cognito:groups"]; //Get user group to check if they're an organization
       setFormState({...formState, username: user.username, name: user.attributes.name, email: user.attributes.email, idToken: user.signInUserSession.idToken});
       userHasAuthenticated(true);
-      if(groups !== undefined && groups[0] === "organization") setIsOrg(true);
+      //Check for authorization
+      if(groups) {
+        for(var i = 0; i < groups.length; i++) {
+          switch(groups[i]) {
+            case "organization":
+              setIsOrg(true);
+              break;
+            case "admin":
+              setIsAdmin(true);
+              break;
+          }
+        }
+      }
     }
     catch(e) {
       if (e !== 'The user is not authenticated') {
@@ -81,23 +94,37 @@ function App() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav>
             <Nav.Link href="/schedule"> Volunteer </Nav.Link>
-            {isOrg===true ? <Nav.Item>
-                <Nav.Link href="/manage_events">Manage Events </Nav.Link>
-              </Nav.Item> : null}
+
+            {isOrg===true ? 
+              <Nav.Item>
+                <Nav.Link href="/manage_events">
+                  Manage Events 
+                </Nav.Link>
+              </Nav.Item> 
+              : null
+            }
             {isAuthenticated===true && isOrg===false ?  
               <Nav.Item>
                 <Nav.Link href="/dashboard">Dashboard </Nav.Link>
-              </Nav.Item> : null}
+              </Nav.Item>
+              : null
+            }
             
-              {isAuthenticated===true ? <Nav.Item>
+            {isAuthenticated===true ? 
+              <Nav.Item>
                 <Nav.Link href="/profile">Profile</Nav.Link>
-              </Nav.Item> : null}
-            {isAuthenticated===true ? <Nav.Item>
-              <Nav.Link id="welcome-user"> Welcome {name}. </Nav.Link>
-            </Nav.Item> : null}
+              </Nav.Item> 
+              : null
+            }
+            {isAuthenticated===true ? 
+              <Nav.Item>
+                <Nav.Link id="welcome-user"> Welcome {name}. </Nav.Link>
+              </Nav.Item> 
+              : null
+            }
             <Nav.Item> {!isAuthenticated ? 
               <Nav.Link href="/login"> Login </Nav.Link> : 
-              <Nav.Item> <Nav.Link onClick={()=>signOut()}> Sign out </Nav.Link></Nav.Item>} 
+              <Nav.Link onClick={()=>signOut()}> Sign out </Nav.Link>} 
             </Nav.Item>
           </Nav>
         </Navbar.Collapse>
@@ -110,7 +137,7 @@ function App() {
           <Landing/>
         </Route>
         <Route exact path="/login">
-          <Login formState={formState} setFormState={setFormState} setAuth={userHasAuthenticated} setIsOrg={setIsOrg}/>
+          <Login formState={formState} setFormState={setFormState} setAuth={userHasAuthenticated} setIsAdmin={setIsAdmin} setIsOrg={setIsOrg}/>
         </Route>
 
         <PrivateRoute exact path="/dashboard" auth={isAuthenticated}>
@@ -125,13 +152,12 @@ function App() {
         <PrivateRoute exact path="/profile" auth={isAuthenticated}>
           <Profile email={email} name={name}/>
         </PrivateRoute>
-
-        <Route exact path="/discover">
-          <Discover/>
-        </Route>
+        <PrivateRoute exact path="/discover" auth={isAuthenticated}>
+          <Discover isAdmin={isAdmin}/>
+        </PrivateRoute>
 
         <Route>
-          <h1>This page is not available.</h1>
+          <h1 style={{marginTop: "100px"}}>This page is not available.</h1>
         </Route>
       </Switch>
 

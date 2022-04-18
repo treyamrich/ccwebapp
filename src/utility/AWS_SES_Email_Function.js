@@ -96,7 +96,6 @@ export async function email_removed_event(sesClient, volunteerBatch, {event_name
   //Send email
   try {
     const data = await sesClient.send(new SendEmailCommand(params));
-    return data; // For unit tests.
   } catch (err) {
     console.log("Error", err);
   }

@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import { Auth } from 'aws-amplify';
-import {Link, Redirect} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import {checkEmptyFields} from '../../utility/EmptyFields.js';
 import { Alert, Form, Button, Container} from 'react-bootstrap';
 import "../../styles/login.css";
 
-function Login({formState, setFormState, setAuth, setIsOrg}) {
+function Login({formState, setFormState, setAuth, setIsAdmin, setIsOrg}) {
 	
 	const {username, password, newPw, confNewPw, name, authCode, formType} = formState;
 	const [redirect, setRedirect] = useState(false);
@@ -79,7 +79,19 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
 	        const groups = user.signInUserSession.accessToken.payload["cognito:groups"];
 	        setFormState({...formState, formType: 'signnedIn', email: username, name: user.attributes.name, idToken: user.signInUserSession.idToken}); //Parent component doesn't rerender, so pass info
 	        setAuth(true);
-	        if(groups!== undefined && groups[0] === "organization") setIsOrg(true);
+	        //Check for authorization
+			if(groups) {
+				for(var i = 0; i < groups.length; i++) {
+				  switch(groups[i]) {
+				    case "organization":
+				      setIsOrg(true);
+				      break;
+				    case "admin":
+				      setIsAdmin(true);
+				      break;
+				  }
+				}
+			}
 	        setRedirect(true); //rerender this component to redirect
 	    } catch (e) {
 	        setError("Invalid Credentials!");
@@ -118,12 +130,12 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
 					</Form.Group>
 				<Button variant="dark" className="mb-3" type="submit">Login</Button>
 				<p>
-					<Link className="link-button" onClick={()=>{setFormState({...formState, username: '', password: '', confNewPw:'', formType: 'signUp'}); setError("none");}}>
+					<a className="link-button" onClick={()=>{setFormState({...formState, username: '', password: '', confNewPw:'', formType: 'signUp'}); setError("none");}}>
 						Sign Up
-					</Link>
-					<Link className="link-button" onClick={()=>setFormState({...formState, formType:'forgotPassword'})}> 
+					</a>
+					<a className="link-button" onClick={()=>setFormState({...formState, formType:'forgotPassword'})}> 
 						Forgot Password 
-					</Link>
+					</a>
 				</p>
 			</Form>
 			)}
@@ -172,9 +184,9 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
 					</Form.Group>
 				<Button variant="dark" className="mb-3" type="submit"> Confirm </Button>
 				<p> Already have an account? 
-					<Link onClick={()=>{setFormState({...formState, password: '', confNewPw:'', username:'', name:'', formType: 'signIn'}); setError("none");}}
+					<a onClick={()=>{setFormState({...formState, password: '', confNewPw:'', username:'', name:'', formType: 'signIn'}); setError("none");}}
 						className="link-button"> Login 
-					</Link>
+					</a>
 				</p>
 			</Form>
 			)}
@@ -200,8 +212,8 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
 						</Form.Group>
 						<Button variant="dark" className="mb-3" type="submit">Send Code</Button>
 						<p>
-							<Link className="link-button" onClick={()=>{setFormState({...formState, username:'', name:'', password:'', authCode:'', formType: 'signIn'});setError("none")}}> 
-								Back to login </Link>
+							<a className="link-button" onClick={()=>{setFormState({...formState, username:'', name:'', password:'', authCode:'', formType: 'signIn'});setError("none")}}> 
+								Back to login </a>
 						</p>
 					</Form>
 			)}
@@ -240,9 +252,9 @@ function Login({formState, setFormState, setAuth, setIsOrg}) {
 							</Form.Group>
 						<Button variant="dark" className="mb-3" type="submit">Change Password</Button>
 						<p>
-							<Link className="link-button" onClick={()=>{setFormState({...formState, username:'', name:'', newPw:'', confNewPw:'', authCode:'', formType: 'signIn'});setError("none")}}>
+							<a className="link-button" onClick={()=>{setFormState({...formState, username:'', name:'', newPw:'', confNewPw:'', authCode:'', formType: 'signIn'});setError("none")}}>
 								Cancel
-							</Link>
+							</a>
 						</p>
 					</Form>
 			)}

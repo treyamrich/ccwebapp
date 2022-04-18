@@ -1,7 +1,7 @@
 {
-  "resourceName": "imagestorage",
-  "policyUUID": "625ce4eb",
-  "bucketName": "ccwebappf1335b8de6e34c67be6506bb9e0262a5",
+  "resourceName": "ccimagestorage",
+  "policyUUID": "de7723be",
+  "bucketName": "ccimagestorage",
   "storageAccess": "auth",
   "guestAccess": [],
   "authAccess": [
