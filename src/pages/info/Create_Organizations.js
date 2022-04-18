@@ -22,11 +22,10 @@ function CreateOrganizations({orgs, setOrgs, cats, setCats, fetchOrgs}) {
 
 	async function makeCategory() {
 
+		setSuccess("none");
+
 		//Check for empty strings
-		if(checkEmptyFields("createCatInput")) {
-			setSuccess("none");
-			return;
-		}
+		if(checkEmptyFields("createCatInput")) return;
 
 		try {
 			//Create category in database
@@ -50,9 +49,10 @@ function CreateOrganizations({orgs, setOrgs, cats, setCats, fetchOrgs}) {
 	}
 	async function removeCategory() {
 
+		setSuccess("none");
+		
 		if(!cats[remCatIndex]) {
 			setCatErr(true);
-			setSuccess("none");
 			return;
 		}
 
@@ -82,14 +82,10 @@ function CreateOrganizations({orgs, setOrgs, cats, setCats, fetchOrgs}) {
 		e.preventDefault();
 
 		//Check for empty strings
-		if(checkEmptyFields("createInput")) {
-			setSuccess("none");
-			return;
-		}
+		if(checkEmptyFields("createInput")) return;
 
 		if(!cats[org.catIndex]) {
 			setCatErr(true);
-			setSuccess("none");
 			return;
 		}
 
@@ -170,7 +166,7 @@ function CreateOrganizations({orgs, setOrgs, cats, setCats, fetchOrgs}) {
 								value={org.image}
 								/>
 						</Form.Group>
-						<Button variant="dark" type="submit">Submit</Button>
+						<Button variant="dark" type="submit" onClick={()=>setSuccess("none")}>Submit</Button>
 					</Form>
 				</Col>
 				<Col>
