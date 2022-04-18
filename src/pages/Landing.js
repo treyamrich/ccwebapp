@@ -21,10 +21,10 @@ function Landing() {
         		<Carousel.Item>
         			<img className="d-block w-100" src={banner} alt="Banner"/>
 			  </Carousel.Item>
-			  <Carousel.Item id="oahu" className="slideshow-container">
+			  <Carousel.Item>
         			<img className="d-block w-100" src={oahu} alt="Banner2"/>
 			  </Carousel.Item>
-			  <Carousel.Item id="garbage" className="slideshow-container">
+			  <Carousel.Item>
         			<img className="d-block w-100" src={garbage} alt="Banner2"/>
 			  </Carousel.Item>
         	</Carousel>
@@ -77,7 +77,7 @@ function Landing() {
         				<p> 
         					Find more information on your local organizations today!
         				</p>
-				        <Link to="/discover"> <Button className ="schedule">Discover Organizations</Button></Link>
+				        <Link to="/discover"> <Button className ="schedule mb-5">Discover Organizations</Button></Link>
 			        </Col>
 			        <Col md={4}>
 			        	<Image src={hand_connect} style={{width: 300}} rounded/>

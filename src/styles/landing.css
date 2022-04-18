@@ -10,16 +10,7 @@ h3 {
 .slideshow-text {
   color: #292b2c;
 }
-#oahu {
-  top: -180px;
-}
-#garbage {
-  top: -400px;
-}
-.slideshow-container {
-  object-fit: contain;
-  height: 613px;
-}
+
 footer {
   background: #292b2c;
   color: white;

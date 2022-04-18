@@ -50,7 +50,7 @@ function CreateOrganizations({orgs, setOrgs, cats, setCats, fetchOrgs}) {
 	async function removeCategory() {
 
 		setSuccess("none");
-		
+
 		if(!cats[remCatIndex]) {
 			setCatErr(true);
 			return;
@@ -127,8 +127,8 @@ function CreateOrganizations({orgs, setOrgs, cats, setCats, fetchOrgs}) {
 			</Row>
 			{catErr ? <Alert variant="danger" onClose={() => setCatErr(false)} dismissible> Please select a category or create one first</Alert> : null}
 			{success !== "none" ? <Alert variant="success" onClose={() => setSuccess("none")} dismissible>{success}</Alert> : null}
-			<Row xxl={2} xl={2} lg={2} md={2} sm={2} xs={2} className="justify-content-center">
-				<Col>
+			<Row xxl={2} xl={2} lg={2} md={1} sm={1} xs={1} className="justify-content-center">
+				<Col className="mb-5">
 					<Form className="p-4 p-sm-5" onSubmit={makeOrg}>
 						<h3>Create Organizations</h3>
 						<Form.Group className="mb-3"> 

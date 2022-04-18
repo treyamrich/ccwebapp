@@ -132,7 +132,7 @@ function ManageEvents({sesObj, orgName, isOrg}) {
 				<Row className="header-container mb-3">
 					<h1>Create Event </h1>
 				</Row>
-				<Row xxl={2} xl={2} lg={2} md={2} sm={2} xs={2} className="justify-content-center">
+				<Row xxl={2} xl={2} lg={2} className="justify-content-center">
 					<Form className="text-center p-4 p-sm-5" onSubmit={makeEvent}>
 						<Form.Group className="mb-3">
 							<Form.Label className="mb-3"><h2>Choose a date </h2></Form.Label>
