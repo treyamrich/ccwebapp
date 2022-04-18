@@ -266,7 +266,7 @@ function Login({formState, setFormState, setAuth, setIsAdmin, setIsOrg}) {
 				</Container>
 			)}
 			</div>
-			{error !== "none" ? <Alert className="error" variant="danger"> {error} </Alert> : null}
+			{error !== "none" ? <Alert className="error" variant="danger" dismissible> {error} </Alert> : null}
 		</div>
 	);
 }

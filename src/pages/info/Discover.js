@@ -3,7 +3,7 @@ import {Helmet} from "react-helmet";
 import { API, Storage } from 'aws-amplify';
 import { listOrganizations } from '../../graphql/queries.js';
 import { deleteOrganization } from '../../graphql/mutations.js';
-import { Button, Form, Container, Row, Col } from 'react-bootstrap';
+import { Accordion, Button, Form, Container, Row, Col} from 'react-bootstrap';
 import CreateOrganizations from './Create_Organizations.js';
 
 import "../../styles/events.css";
@@ -74,10 +74,10 @@ function Discover({isAdmin}) {
         	</Helmet>
 			<Container className="main-container">
 				{isAdmin && (
-					<CreateOrganizations orgs={orgs} setOrgs={setOrgs} cats={cats}/>
+					<CreateOrganizations orgs={orgs} setOrgs={setOrgs} cats={cats} fetchOrgs={fetchOrgs}/>
 				)}
 				<Row className="header-container"><h1>Discover</h1></Row>
-				<Row className="mb-3" xxl={2} xl={2} lg={2} md={2} sm={2} xs={2}>
+				<Row className="p-4 p-sm-5" xxl={2} xl={2} lg={2} md={2} sm={2} xs={2} style={{borderBottom:"1px solid #EFEFEF"}}>
 					<Form.Group>
 						<Form.Label>Select Category</Form.Label>
 						<Form.Select onChange={(e)=>fetchOrgs(e.target.value)}>
@@ -90,22 +90,26 @@ function Discover({isAdmin}) {
 						</Form.Select>
 					</Form.Group>
 				</Row>
-		     	<Row className="events-wrapper">
-		     		{orgs.length === 0 ? <h2 style={{padding: "10px", textAlign:"center"}}> No organizations </h2> : null}
-	     			<Container>
+		     	<Row>
+		     		{orgs.length === 0 ? <h2 className="p-4 sm-5" style={{padding: "10px", textAlign:"center"}}> No organizations </h2> : null}
+	     			<Accordion className="p-4 p-sm-5">
 	     			{
 	     				orgs.map((org, index) => (
-	     					<Row className={index === 0 ? "first-event": "events"} key={index}>
-								<h4 className="mb-3"> Organization: {org.name}</h4>
-								{org.image && <img className="mb-3" alt={org.name + "-logo"} src={org.image} style={{width: 400}} />}
-								<h5 className="mb-3"><em>Description: {org.description}</em></h5>
-								{isAdmin && (
-									<Button className="mb-3" variant="danger" onClick={()=>removeOrg(org, index)}> Remove </Button>
-								)}
-							</Row>
+	     					<Accordion.Item key={index}>
+								<Accordion.Header> Organization: {org.name}</Accordion.Header>
+								<Accordion.Body>
+									<Row>
+										{org.image && <Col><img className="mb-3" alt={org.name + "-logo"} src={org.image} style={{width: 400}} /></Col>}
+										<Col><h5 className="mb-3"><em>Description: {org.description}</em></h5></Col>
+										{isAdmin && (
+											<Button className="mb-3" variant="danger" onClick={()=>removeOrg(org, index)}> Remove </Button>
+										)}
+									</Row>
+								</Accordion.Body>
+							</Accordion.Item>
      					))
 	     			}
-     				</Container>
+     				</Accordion>
 		     	</Row>
 	     	</Container>
 		</div>

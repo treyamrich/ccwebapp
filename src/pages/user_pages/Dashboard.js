@@ -32,47 +32,43 @@ function Dashboard({email}) {
 			<Container className="main-container">
 				<Row className="mb-4">
 					<Row className="section-header"><h1>Enrolled events</h1></Row>
-					<Row className="events-wrapper">
-					{events.length === 0 ? <h2 style={{textAlign:"center"}}> No events </h2> : null}
+					<Container className="events-wrapper">
+					{events.length === 0 ? <h2 style={{padding: "10px", textAlign:"center"}}> No events </h2> : null}
 					{
 						events.map((event, index) => (
-							<Container className={index === 0 ? "first-event": "events"} key={index}>
-								<Row>
-									<h4> Event Name: {event.event_name} </h4>
-									<h5> <em>Host: {event.organization_name}</em></h5>
-									<h5><em>Description: {event.description}</em></h5>
-									<ul className="events">
-										<li>Date: {event.date}</li>
-										<li>Time: {event.start_time} - {event.end_time}</li>
-										<li>Location: {event.location}</li>
-									</ul>
-								</Row>
-							</Container>
+							<Row className={index === 0 ? "first-event": "events"} key={index}>
+								<h4> Event Name: {event.event_name} </h4>
+								<h5> <em>Host: {event.organization_name}</em></h5>
+								<h5><em>Description: {event.description}</em></h5>
+								<ul className="events mb-3">
+									<li>Date: {event.date}</li>
+									<li>Time: {event.start_time} - {event.end_time}</li>
+									<li>Location: {event.location}</li>
+								</ul>
+							</Row>
 						))
 					}
-					</Row>
+					</Container>
 				</Row>
 				<Row>
 					<Row className="section-header"><h1>Attended Events </h1></Row>
-					<Row className="events-wrapper">
-					{prevEvents.length === 0 ? <h2 style={{textAlign:"center"}}> No attended events </h2> : null}
+					<Container className="events-wrapper">
+					{prevEvents.length === 0 ? <h2 style={{padding: "10px", textAlign:"center"}}> No attended events </h2> : null}
 					{
 						prevEvents.map((event, index) => (
-							<Container className={index === 0 ? "first-event": "events"} key={index}>
-								<Row>
-									<h4> Event Name: {event.event_name} </h4>
-									<h5><em>Host: {event.organization_name}</em></h5>
-									<h5><em>Description: {event.description}</em></h5>
-									<ul className="events">
-										<li>Date: {event.date}</li>
-										<li>Time: {event.start_time} - {event.end_time}</li>
-										<li>Location: {event.location}</li>
-									</ul>
-								</Row>
-							</Container>
+							<Row className={index === 0 ? "first-event": "events"} key={index}>
+								<h4> Event Name: {event.event_name} </h4>
+								<h5><em>Host: {event.organization_name}</em></h5>
+								<h5><em>Description: {event.description}</em></h5>
+								<ul className="events mb-3">
+									<li>Date: {event.date}</li>
+									<li>Time: {event.start_time} - {event.end_time}</li>
+									<li>Location: {event.location}</li>
+								</ul>
+							</Row>
 						))
 					}
-					</Row>
+					</Container>
 				</Row>
 			</Container>
 		</div>

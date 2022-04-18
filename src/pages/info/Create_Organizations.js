@@ -5,7 +5,7 @@ import { checkEmptyFields } from '../../utility/EmptyFields.js';
 import { Button, Form, Container, Row } from 'react-bootstrap';
 import "../../styles/events.css";
 
-function CreateOrganizations({orgs, setOrgs, cats}) {
+function CreateOrganizations({orgs, setOrgs, cats, fetchOrgs}) {
 
 	const initialOrgState = {
 		org_name: '',
@@ -43,6 +43,8 @@ function CreateOrganizations({orgs, setOrgs, cats}) {
 			newOrgs.splice(0, 0, orgData); //Insert at the first index
 			setOrgs(newOrgs);
 
+			//Fetch orgs again
+			fetchOrgs();
 		} catch (err) {
 			console.log(err);
 			console.log(org);

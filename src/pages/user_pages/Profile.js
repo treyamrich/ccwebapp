@@ -96,7 +96,7 @@ function Profile({email, name}) {
 					</Form>
 				)}
 			</div>
-			{error !== "none" ? <Alert className="error" variant="danger"> {error} </Alert> : null}
+			{error !== "none" ? <Alert className="error" variant="danger" dismissible> {error} </Alert> : null}
 			{success === true ? <Alert className="error" variant="success"> Password Changed. </Alert> : null}
 		</div>
 	);

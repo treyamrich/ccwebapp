@@ -94,7 +94,7 @@ function App() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav>
             <Nav.Link href="/schedule"> Volunteer </Nav.Link>
-
+            <Nav.Link href="/discover"> Discover </Nav.Link>
             {isOrg===true ? 
               <Nav.Item>
                 <Nav.Link href="/manage_events">
