@@ -23,3 +23,8 @@ type Organization @model @auth(rules: [{ allow: private}]) {
   description: String
   image: String
 }
+
+type Category @model @auth(rules: [{ allow: private}]) {
+  id: ID!
+  name: String!
+}

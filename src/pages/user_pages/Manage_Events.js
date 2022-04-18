@@ -85,8 +85,8 @@ function ManageEvents({sesObj, orgName, isOrg}) {
 				id: id
 			}}});
 			//Remove event from local array
-			var newEvents = [...events]; //Copy array
-			if (index !== -1) {
+			var newEvents = [...events];
+			if (index >= 0) {
 			    newEvents.splice(index, 1);
 			    setEvents(newEvents);
 			}
@@ -155,7 +155,7 @@ function ManageEvents({sesObj, orgName, isOrg}) {
 					        onChange={chEndTime}
 					        value={selEndTime}/>
 				    	</Form.Group>
-				    	{makeEventErr ? <Alert variant="danger"> Please select a valid time interval</Alert> : null}
+				    	{makeEventErr ? <Alert variant="danger" onClose={() => setMakeEventErr(false)} dismissible> Please select a valid time interval</Alert> : null}
 			     	 	<Form.Group className="mb-3"> 
 			     	 		<Form.Label> Event Name: </Form.Label>
 			     	 		<Form.Control onChange={(e)=>setEvent({...event, event_name: e.target.value})}

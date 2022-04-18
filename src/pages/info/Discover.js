@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Helmet} from "react-helmet";
 import { API, Storage } from 'aws-amplify';
-import { listOrganizations } from '../../graphql/queries.js';
+import { listOrganizations, listCategories } from '../../graphql/queries.js';
 import { deleteOrganization } from '../../graphql/mutations.js';
 import { Accordion, Button, Form, Container, Row, Col} from 'react-bootstrap';
 import CreateOrganizations from './Create_Organizations.js';
@@ -23,6 +23,7 @@ function Discover({isAdmin}) {
 
 	const [orgs, setOrgs] = useState([]);
 	const [selCat, setSelCategory] = useState("all");
+	const [cats, setCats] = useState([]);
 
 	async function removeOrg(org, index) {
 		const {id} = org;
@@ -39,6 +40,15 @@ function Discover({isAdmin}) {
 			}
 		} catch(err){
 			alert("Error removing organization.");
+		}
+	}
+	async function fetchCategories() {
+		try {
+			const apiData = await API.graphql({query: listCategories});
+			const catList = apiData.data.listCategories.items;
+			setCats(catList);
+		} catch(err) {
+			alert("Error fetching categories");
 		}
 	}
 	async function fetchOrgs(category) {
@@ -61,7 +71,9 @@ function Discover({isAdmin}) {
 			alert("Error fetching organizations.");
 		}
 	}
+
 	useEffect(()=>{
+		fetchCategories();
 		fetchOrgs();
 	}, []);
 
@@ -74,7 +86,7 @@ function Discover({isAdmin}) {
         	</Helmet>
 			<Container className="main-container">
 				{isAdmin && (
-					<CreateOrganizations orgs={orgs} setOrgs={setOrgs} cats={cats} fetchOrgs={fetchOrgs}/>
+					<CreateOrganizations orgs={orgs} setOrgs={setOrgs} cats={cats} setCats={setCats} fetchOrgs={fetchOrgs}/>
 				)}
 				<Row className="header-container"><h1>Discover</h1></Row>
 				<Row className="p-4 p-sm-5" xxl={2} xl={2} lg={2} md={2} sm={2} xs={2} style={{borderBottom:"1px solid #EFEFEF"}}>
@@ -84,7 +96,7 @@ function Discover({isAdmin}) {
 							<option value="all">Default-All</option>
 							{
 								cats.map((cat, index) => (
-									<option value={cat.name} key={index}> {cat.label}</option>
+									<option value={cat.name} key={index}> {cat.name}</option>
 								))
 							}
 						</Form.Select>
@@ -95,7 +107,7 @@ function Discover({isAdmin}) {
 	     			<Accordion className="p-4 p-sm-5">
 	     			{
 	     				orgs.map((org, index) => (
-	     					<Accordion.Item key={index}>
+	     					<Accordion.Item key={index} eventKey={index}>
 								<Accordion.Header> Organization: {org.name}</Accordion.Header>
 								<Accordion.Body>
 									<Row>
