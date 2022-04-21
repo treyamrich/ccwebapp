@@ -5,7 +5,6 @@ import React, { useState, useEffect } from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import { createSESObj } from './libs/sesClient.js';
-
 import Landing from './pages/Landing.js';
 import Discover from './pages/info/Discover.js';
 
