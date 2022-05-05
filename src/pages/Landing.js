@@ -32,11 +32,15 @@ function Landing() {
         		<Row>
         			<Col md={4}>
         				<h3>Our Founder</h3>
-        				<p className="info">Welcome to Compassion Connection and thank you for taking the time out of your day to check us out. 
-							My name is Timothy Newton and I am the founder of this organization. 
-							For so long I wanted to make a difference in my community but getting in touch with places to volunteer can be very difficult. 
-							I created this platform to solve the very same issue for myself that you're probably having right now. 
-							I want to do good, I want to make a difference but how? Well that is where this idea for a solution came into play.
+        				<p className="info">
+        					Welcome to Compassion Connection, and thank you for taking the time out of your day to check us out! My name is Timothy Newton, 
+        					and I am the founder of this organization. For so long, I wanted to make a difference in my community, but I found getting in touch 
+        					with places to volunteer can be very difficult. I created this platform to solve issues I was presented with and became familiar with 
+        					in my own process of attempting to get involved helping my community. I want to do good; I want to make a difference, but how? I was 
+							inspired to bring a platform into fruition that is both pragmatic and accessible, but most importantly simple. If we can increase the 
+							direct communication between organization leaders and potential volunteers, as well as provide a list of local organizations and their 
+							mission statements and a calendar with dated volunteer opportunities to get involved with, collectively we will all be able to make a 
+							larger impact in our community.
 						</p>
         			</Col>
         			<Col md={4}>
@@ -51,13 +55,12 @@ function Landing() {
         			<Col md={4}>
         				<h3> Mission </h3>
         				<p className="info">
-							This is only the beginning though of a much larger project to connect the entire world. 
-							Our earth is broken in so many ways and the only logical answer is to get everyone on board with doing their part. 
-							If we can make volunteering a regular and habitual thing for everyone who knows the limits of success we can having 
-							in solving any of the worlds issues. Everyone says money is the only way but I truly believe that people are the only way 
-							and it is going to be by each and every single one of our own wills that significant change will happen in this world for the better. 
-							I ask you to take a look and to try different options out too see what works best for you! 
-							Tell your friends and family and be your own butterfly effect for helping humanity and this planet.
+							This is only the beginning of a much larger project to connect the entire world. Our earth is broken in so many ways and the only logical 
+							answer is to get everyone on board with doing their part! If we can make volunteering a regular and habitual thing for everyone, who knows 
+							the limits of success we can having in solving any of the worlds issues. Everyone says money is the only way but I truly believe that people 
+							are the only way, and it is going to be by each and every single one of our own wills that significant change can happen in this world. 
+							I ask you to take a look and to try different options out too see what works best for you! Tell your friends and family! Be your own butterfly 
+							effect for helping humanity and this planet.
 						</p>
         			</Col>
         		</Row>
