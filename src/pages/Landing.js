@@ -94,17 +94,16 @@ function Landing() {
 						<Col>
 							<div className="footer">Social Media</div>
 							<ul>
-								<li><Link to="/" className = "footer-link"> Instagram </Link></li>
-								<li><Link to="/" className = "footer-link"> Twitter </Link></li>
-								<li><Link to="/" className = "footer-link"> Tiktok </Link></li>
+								<li><a href="/" className = "footer-link"> Instagram </a></li>
+								<li><a href="/" className = "footer-link"> Twitter </a></li>
+								<li><a href="/" className = "footer-link"> Tiktok </a></li>
 							</ul>
 						</Col>
 	        			<Col>
 					        <div className="footer">Donate</div>
 					        <ul>
-								<li><Link to="/" className = "footer-link"> Cash app </Link></li>
-								<li><Link to="/" className = "footer-link"> Venmo </Link></li>
-								<li><Link to="/" className = "footer-link"> Patreon </Link></li>
+								<li><a href="https://cash.app/$compassionconnect" target="_blank" className = "footer-link"> Cash app </a></li>
+								<li><a href="/" className = "footer-link"> Patreon </a></li>
 							</ul>
 	        			</Col>       		
 	        		</Row>
